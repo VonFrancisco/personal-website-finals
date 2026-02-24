@@ -137,11 +137,15 @@
 </head>
 
 <body>
+<div id="loader">
+  <div class="loader-text">LOADING...</div>
+</div> 
 
 <div class="city-overlay"></div>
 <canvas id="particles"></canvas>
 
 <nav>
+    <div class="menu-toggle" onclick="toggleMenu()">☰</div>
   <div><strong>VON CRISTAN</strong></div>
   <div>
     <a href="index.html">Home</a>
@@ -240,6 +244,41 @@ function animate() {
 }
 
 animate()
+</script>
+
+<script>
+document.querySelectorAll("a").forEach(link => {
+  link.addEventListener("click", function(e) {
+    if (this.getAttribute("href").includes(".html")) {
+      e.preventDefault()
+      document.body.classList.add("fade-out")
+      setTimeout(() => {
+        window.location.href = this.href
+      }, 300)
+    }
+  })
+})
+</script>
+
+<script>
+window.addEventListener("load", () => {
+  const loader = document.getElementById("loader")
+  loader.style.opacity = "0"
+  setTimeout(() => loader.remove(), 500)
+})
+</script>
+
+<canvas id="particles"></canvas>
+
+<script>
+function toggleMenu() {
+  const links = document.querySelector(".nav-links")
+  if (links.style.display === "flex") {
+    links.style.display = "none"
+  } else {
+    links.style.display = "flex"
+  }
+}
 </script>
 
 </body>

@@ -227,6 +227,9 @@ input, textarea {
 </head>
 
 <body>
+      <div id="loader">
+        <div class="loader-text">LOADING...</div>
+    </div> 
   <div class="city-overlay"></div>
 
   <nav>
@@ -239,13 +242,14 @@ input, textarea {
   </nav>
 
   <div class="hero">
-    <h1>VON CRISTAN</h1>
+    <h1 id="typing"></h1>
     <p>Cyberpunk Portfolio in the City That Never Sleeps</p>
   </div>
   <link rel="stylesheet" href="style.css">
   <div class="city-overlay"></div>
 
 <nav>
+  <div class="menu-toggle" onclick="toggleMenu()">☰</div>
   <div><strong>VON CRISTAN</strong></div>
   <div>
     <a href="index.html">Home</a>
@@ -255,9 +259,59 @@ input, textarea {
 </nav>
 
 <div class="hero">
-  <h1>VON CRISTAN</h1>
+  <h1 id="typing"></h1>
   <p>Cyberpunk Portfolio</p>
 </div>
+
+<script>
+document.querySelectorAll("a").forEach(link => {
+  link.addEventListener("click", function(e) {
+    if (this.getAttribute("href").includes(".html")) {
+      e.preventDefault()
+      document.body.classList.add("fade-out")
+      setTimeout(() => {
+        window.location.href = this.href
+      }, 300)
+    }
+  })
+})
+</script>
+
+<canvas id="particles"></canvas>
+
+<script>
+window.addEventListener("load", () => {
+  const loader = document.getElementById("loader")
+  loader.style.opacity = "0"
+  setTimeout(() => loader.remove(), 500)
+})
+</script>
+
+<script>
+const text = "VON CRISTAN"
+let i = 0
+
+function typeWriter() {
+  if (i < text.length) {
+    document.getElementById("typing").innerHTML += text.charAt(i)
+    i++
+    setTimeout(typeWriter, 120)
+  }
+}
+
+window.addEventListener("load", typeWriter)
+</script>
+
+<script>
+function toggleMenu() {
+  const links = document.querySelector(".nav-links")
+  if (links.style.display === "flex") {
+    links.style.display = "none"
+  } else {
+    links.style.display = "flex"
+  }
+}
+</script>
 
 </body>
 </html>
