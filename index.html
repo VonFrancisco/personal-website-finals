@@ -7,52 +7,117 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
-    body {
-      margin: 0;
-      font-family: Arial;
-      background: #f4f4f4;
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(to bottom, #0a0f2c, #000000);
+    color: white;
+    min-height: 100vh;
+  }
+
+  .container {
+    max-width: 700px;
+    margin: auto;
+    padding: 40px 20px;
+  }
+
+  h1 {
+    text-align: center;
+    font-size: 42px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    background: linear-gradient(90deg, #00c6ff, #ff00ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  p {
+    text-align: center;
+    color: #aaa;
+    margin-bottom: 40px;
+  }
+
+  h2 {
+    border-left: 4px solid #00c6ff;
+    padding-left: 10px;
+    margin-bottom: 20px;
+  }
+
+  input, textarea {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: white;
+    border-radius: 6px;
+    backdrop-filter: blur(10px);
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: #888;
+  }
+
+  button {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(90deg, #00c6ff, #ff00ff);
+    border: none;
+    color: white;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+
+  button:hover {
+    opacity: 0.8;
+    transform: scale(1.02);
+  }
+
+  .comment {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 15px;
+    margin-top: 15px;
+    border-radius: 8px;
+    backdrop-filter: blur(8px);
+    transition: 0.3s;
+  }
+
+  .comment:hover {
+    background: rgba(255,255,255,0.1);
+  }
+
+  strong {
+    color: #00c6ff;
+  }
+
+  @media (max-width: 600px) {
+    h1 {
+      font-size: 28px;
     }
 
     .container {
-      max-width: 600px;
-      margin: auto;
       padding: 20px;
     }
-
-    h1 {
-      text-align: center;
-    }
-
-    input, textarea {
-      width: 100%;
-      margin-bottom: 10px;
-      padding: 8px;
-    }
-
-    button {
-      padding: 10px;
-      background: black;
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
-
-    .comment {
-      background: white;
-      padding: 10px;
-      margin-top: 10px;
-      border-radius: 5px;
-    }
-
-    @media (max-width: 600px) {
-      .container {
-        padding: 10px;
-      }
-    }
-  </style>
+  }
+  .city-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('https://images.unsplash.com/photo-1549921296-3a6b5b9b7a3b') no-repeat center center/cover;
+  opacity: 0.15;
+  z-index: -1;
+}
+</style>
 </head>
 
 <body>
+  <div class="city-overlay"></div>
   <div id="app" class="container">
     <h1>Von Cristan</h1>
     <p style="text-align:center;">WEBPROG Final Project</p>
