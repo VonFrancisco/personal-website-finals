@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<link rel="stylesheet" href="style.css">
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>About - Von Cristan</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<script>
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible')
+    }
+  })
+})
+
+document.querySelectorAll('.fade-in').forEach(el => {
+  observer.observe(el)
+})
+</script>
+
+<body>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="guestbook.html">Guestbook</a>
+  </nav>
+
+  <div class="page">
+    <h1>About Me</h1>
+    <p>
+      I am a web developer building modern responsive applications
+      using Vue.js and Supabase.
+    </p>
+  </div>
+  <div class="city-overlay"></div>
+
+<nav>
+  <div><strong>VON CRISTAN</strong></div>
+  <div>
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="guestbook.html">Guestbook</a>
+  </div>
+</nav>
+
+<div class="page">
+  <section class="fade-in">
+    <h2>About Me</h2>
+    <p>
+      I build modern responsive websites using Vue.js,
+      Supabase, and clean UI principles.
+    </p>
+  </section>
+</div>
+</body>
+</html>

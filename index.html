@@ -2,28 +2,98 @@
 <html>
 <head>
   <meta charset="UTF-8" />
-  <title>Von Cristan - Personal Profile</title>
+  <title>Von Cristan</title>
+
   <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
-    html {
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      height: 100vh;
+      color: white;
+      overflow: hidden;
+    }
+
+    .city-overlay {
+      position: fixed;
+      inset: 0;
+      background: url('https://i.imgur.com/fwgGV3G.jpg') no-repeat center center/cover;
+      opacity: 0.4;
+      z-index: -2;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0.9));
+      z-index: -1;
+    }
+
+    .hero {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 60px;
+      background: linear-gradient(90deg,#00f0ff,#ff00ff);
+      -webkit-background-clip: text;
+      color: transparent;
+      animation: glow 3s infinite alternate;
+    }
+
+    @keyframes glow {
+      from { text-shadow: 0 0 10px #00f0ff; }
+      to { text-shadow: 0 0 25px #ff00ff; }
+    }
+
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(10px);
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin-left: 20px;
+    }
+
+    nav a:hover {
+      color: #00f0ff;/* GLOBAL */
+
+html {
   scroll-behavior: smooth;
 }
+
 body {
   margin: 0;
   font-family: 'Segoe UI', sans-serif;
-  min-height: 100vh;
+  background: #050510;
   color: white;
-  position: relative;
+  overflow-x: hidden;
 }
 
+/* BACKGROUND */
 
 .city-overlay {
   position: fixed;
   inset: 0;
   background: url('https://i.imgur.com/fwgGV3G.jpg') no-repeat center center/cover;
-  opacity: 0.35; /* more visible */
+  opacity: 0.35;
   z-index: -2;
 }
 
@@ -31,17 +101,67 @@ body::after {
   content: "";
   position: fixed;
   inset: 0;
-  background: linear-gradient(to bottom, rgba(0,0,0,0.75), rgba(0,0,0,0.85));
+  background: linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0.9));
   z-index: -1;
 }
 
-.container {
-  max-width: 800px;
-  margin: auto;
-  padding: 40px 20px;
+/* NAVBAR */
+
+nav {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  padding: 15px 30px;
+  display: flex;
+  justify-content: space-between;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(10px);
+  z-index: 1000;
 }
 
-/* Sections */
+nav a {
+  color: white;
+  text-decoration: none;
+  margin-left: 20px;
+  transition: 0.3s;
+}
+
+nav a:hover {
+  color: #00f0ff;
+}
+
+/* HERO */
+
+.hero {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.hero h1 {
+  font-size: 60px;
+  background: linear-gradient(90deg,#00f0ff,#ff00ff);
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: glow 3s infinite alternate;
+}
+
+@keyframes glow {
+  from { text-shadow: 0 0 10px #00f0ff; }
+  to { text-shadow: 0 0 25px #ff00ff; }
+}
+
+/* SECTIONS */
+
+.page {
+  max-width: 800px;
+  margin: auto;
+  padding: 120px 20px 40px;
+}
+
 section {
   background: rgba(255,255,255,0.05);
   backdrop-filter: blur(12px);
@@ -49,7 +169,7 @@ section {
   padding: 25px;
   margin-bottom: 30px;
   border-radius: 12px;
-  transition: 0.4s;
+  transition: 0.5s;
 }
 
 section:hover {
@@ -57,87 +177,29 @@ section:hover {
   background: rgba(255,255,255,0.08);
 }
 
-/* Hero */
-.hero {
-  text-align: center;
-}
+/* BUTTON */
 
-.hero h1 {
-  font-size: 44px;
-  background: linear-gradient(90deg, #00c6ff, #ff00ff);
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
-  animation: glow 3s infinite alternate;
-}
-
-.navbar {
-  position: fixed;
-  top: 0;
+button {
   width: 100%;
-  display: flex;
-  justify-content: space-between;
-  padding: 15px 30px;
-  background: rgba(0,0,0,0.6);
-  backdrop-filter: blur(10px);
-  z-index: 1000;
-}
-
-.logo {
+  padding: 12px;
+  background: transparent;
+  border: 2px solid #00f0ff;
+  color: #00f0ff;
   font-weight: bold;
-  background: linear-gradient(90deg, #00c6ff, #ff00ff);
-  -webkit-background-clip: text;
-  color: transparent;
-}
-
-.nav-links a {
-  color: white;
-  margin-left: 20px;
-  text-decoration: none;
+  border-radius: 8px;
+  cursor: pointer;
   transition: 0.3s;
+  box-shadow: 0 0 10px #00f0ff;
 }
 
-.nav-links a:hover {
-  color: #00c6ff;
+button:hover {
+  background: #00f0ff;
+  color: black;
+  box-shadow: 0 0 20px #ff00ff;
 }
 
-.fade-in {
-  opacity: 0;
-  transform: translateY(40px);
-  transition: all 0.8s ease;
-}
+/* INPUTS */
 
-.fade-in.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-#particles {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -3;
-}
-
-@keyframes glow {
-  from { text-shadow: 0 0 10px #00c6ff; }
-  to { text-shadow: 0 0 25px #ff00ff; }
-}
-
-/* Profile Image */
-.profile-img {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  object-fit: cover;
-  display: block;
-  margin: 15px auto;
-  border: 3px solid #00c6ff;
-}
-
-/* Inputs */
 input, textarea {
   width: 100%;
   padding: 12px;
@@ -148,221 +210,54 @@ input, textarea {
   border-radius: 8px;
 }
 
-button {
-  width: 100%;
-  padding: 12px;
-  background: transparent;
-  border: 2px solid #00c6ff;
-  color: #00c6ff;
-  font-weight: bold;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: 0.3s;
-  box-shadow: 0 0 10px #00c6ff;
-}
+/* ANIMATIONS */
 
-button:hover {
-  background: #00c6ff;
-  color: black;
-  box-shadow: 0 0 20px #ff00ff;
-}
-
-.comment {
-  margin-top: 15px;
-  padding: 12px;
-  border-radius: 8px;
-  background: rgba(255,255,255,0.06);
-  transition: 0.3s;
-}
-
-.comment:hover {
-  background: rgba(255,255,255,0.1);
-}
-
-/* Fade-in animation */
 .fade-in {
-  animation: fadeIn 1s ease-in-out;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s ease;
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
 }
-
-@media (max-width: 600px) {
-  .hero h1 {
-    font-size: 30px;
-  }
-}
-</style>
+    }
+  </style>
 </head>
 
 <body>
   <div class="city-overlay"></div>
-<div id="app" class="container">
 
-  <!-- HOME SECTION -->
-  <div id="home" class="hero fade-in">
-    <h1>VON CRISTAN</h1>
-    <p>Exploring Code in the City That Never Sleeps</p>
-  </div>
-
-  <!-- ABOUT SECTION -->
-  <section id="about" class="fade-in">
-    <h2>About Me</h2>
-    <img class="profile-img" src="https://i.imgur.com/YOUR_IMAGE.jpg" alt="Profile">
-    <p>
-      I am a passionate web developer building modern applications using
-      Vue.js, Supabase, and responsive design principles.
-    </p>
-  </section>
-
-  <!-- GUESTBOOK SECTION -->
-  <section id="guestbook" class="fade-in">
-    <h2>Guestbook</h2>
-
-    <input v-model="name" placeholder="Your name">
-    <textarea v-model="message" placeholder="Your message"></textarea>
-    <button @click="addComment">Post Comment</button>
-
-    <div v-for="comment in comments" :key="comment.id" class="comment">
-      <strong>{{ comment.name }}</strong>
-      <p>{{ comment.message }}</p>
+  <nav>
+    <div><strong>VON CRISTAN</strong></div>
+    <div>
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="guestbook.html">Guestbook</a>
     </div>
-  </section>
+  </nav>
 
-</div>
+  <div class="hero">
+    <h1>VON CRISTAN</h1>
+    <p>Cyberpunk Portfolio in the City That Never Sleeps</p>
+  </div>
+  <link rel="stylesheet" href="style.css">
+  <div class="city-overlay"></div>
 
-<nav class="navbar">
-  <div class="logo">VON CRISTAN</div>
-  <div class="nav-links">
-    <a href="#home">Home</a>
-    <a href="#about">About</a>
-    <a href="#guestbook">Guestbook</a>
+<nav>
+  <div><strong>VON CRISTAN</strong></div>
+  <div>
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="guestbook.html">Guestbook</a>
   </div>
 </nav>
 
-<section class="fade-in">
-  <h2>About Me</h2>
-  <img class="profile-img" src="https://i.imgur.com/yourImage.jpg" alt="Profile">
-  <p>
-    I am a passionate web developer creating modern applications using
-    Vue.js and database integration. This project demonstrates
-    frontend development, API integration, and responsive design.
-  </p>
-</section>
-
-<section class="fade-in">
-  <h2>Guestbook</h2>
-
-  <input v-model="name" placeholder="Your name">
-  <textarea v-model="message" placeholder="Your message"></textarea>
-  <button @click="addComment">Post Comment</button>
-
-  <div v-for="comment in comments" :key="comment.id" class="comment">
-    <strong>{{ comment.name }}</strong>
-    <p>{{ comment.message }}</p>
-  </div>
-</section>
-  </div>
-
-  <script>
-    const { createApp, ref, onMounted } = Vue
-    const { createClient } = supabase
-
-    const supabaseUrl = "https://cdrhbihdnvqkcixqqvad.supabase.co"
-    const supabaseKey = "sb_publishable_yNAeLHsCJIw3rUPUMy8A-w_kJ4xx3Lk"
-
-    const db = createClient(supabaseUrl, supabaseKey)
-
-    createApp({
-      setup() {
-        const name = ref("")
-        const message = ref("")
-        const comments = ref([])
-
-        async function fetchComments() {
-          const { data } = await db
-            .from("guestbook")
-            .select("*")
-            .order("created_at", { ascending: false })
-
-          comments.value = data || []
-        }
-
-        async function addComment() {
-          if (!name.value || !message.value) return
-
-          await db.from("guestbook").insert([
-            { name: name.value, message: message.value }
-          ])
-
-          name.value = ""
-          message.value = ""
-          fetchComments()
-        }
-
-        onMounted(fetchComments)
-
-        return { name, message, comments, addComment }
-      }
-    }).mount("#app")
-  </script>
-<script>
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible')
-      }
-    })
-  })
-
-  document.querySelectorAll('.fade-in').forEach(el => {
-    observer.observe(el)
-  })
-</script>
-
-<canvas id="particles"></canvas>
-
-<script>
-const canvas = document.getElementById("particles")
-const ctx = canvas.getContext("2d")
-
-canvas.width = window.innerWidth
-canvas.height = window.innerHeight
-
-let particles = []
-
-for (let i = 0; i < 80; i++) {
-  particles.push({
-    x: Math.random() * canvas.width,
-    y: Math.random() * canvas.height,
-    size: Math.random() * 2,
-    speed: Math.random() * 0.5
-  })
-}
-
-function animate() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height)
-
-  particles.forEach(p => {
-    ctx.fillStyle = "rgba(0,198,255,0.7)"
-    ctx.beginPath()
-    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2)
-    ctx.fill()
-
-    p.y -= p.speed
-
-    if (p.y < 0) {
-      p.y = canvas.height
-    }
-  })
-
-  requestAnimationFrame(animate)
-}
-
-animate()
-</script>
+<div class="hero">
+  <h1>VON CRISTAN</h1>
+  <p>Cyberpunk Portfolio</p>
+</div>
 
 </body>
 </html>
