@@ -7,140 +7,170 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
-  body {
-    margin: 0;
-    font-family: 'Segoe UI', sans-serif;
-    background: linear-gradient(to bottom, #0a0f2c, #000000);
-    color: white;
-    min-height: 100vh;
-  }
-
-  .container {
-    max-width: 700px;
-    margin: auto;
-    padding: 40px 20px;
-  }
-
-  h1 {
-    text-align: center;
-    font-size: 42px;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    background: linear-gradient(90deg, #00c6ff, #ff00ff);
-    background-clip: text;
-    -webkit-background-clip: text;
-    color: transparent;
-  }
-
-  p {
-    text-align: center;
-    color: #aaa;
-    margin-bottom: 40px;
-  }
-
-  h2 {
-    border-left: 4px solid #00c6ff;
-    padding-left: 10px;
-    margin-bottom: 20px;
-  }
-
-  input, textarea {
-    width: 100%;
-    padding: 12px;
-    margin-bottom: 15px;
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.1);
-    color: white;
-    border-radius: 6px;
-    backdrop-filter: blur(10px);
-  }
-
-  input::placeholder,
-  textarea::placeholder {
-    color: #888;
-  }
-
-  button {
-    width: 100%;
-    padding: 12px;
-    background: linear-gradient(90deg, #00c6ff, #ff00ff);
-    border: none;
-    color: white;
-    font-weight: bold;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: 0.3s;
-  }
-
-  button:hover {
-    opacity: 0.8;
-    transform: scale(1.02);
-  }
-
-  .comment {
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.1);
-    padding: 15px;
-    margin-top: 15px;
-    border-radius: 8px;
-    backdrop-filter: blur(8px);
-    transition: 0.3s;
-  }
-
-  .comment:hover {
-    background: rgba(255,255,255,0.1);
-  }
-
-  strong {
-    color: #00c6ff;
-  }
-
-  @media (max-width: 600px) {
-    h1 {
-      font-size: 28px;
-    }
-
-    .container {
-      padding: 20px;
-    }
-  }
-  .city-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: url('https://i.imgur.com/fwgGV3G.jpg') no-repeat center center/cover;
-    opacity: 0.15;
-    z-index: -1;
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  min-height: 100vh;
+  color: white;
+  position: relative;
 }
+
+.city-overlay {
+  position: fixed;
+  inset: 0;
+  background: url('https://i.imgur.com/fwgGV3G.jpg') no-repeat center center/cover;
+  opacity: 0.35; /* more visible */
+  z-index: -2;
+}
+
 body::after {
   content: "";
   position: fixed;
   inset: 0;
-  background: linear-gradient(to bottom, rgba(10,15,44,0.8), rgba(0,0,0,0.9));
+  background: linear-gradient(to bottom, rgba(0,0,0,0.75), rgba(0,0,0,0.85));
   z-index: -1;
 }
 
+.container {
+  max-width: 800px;
+  margin: auto;
+  padding: 40px 20px;
+}
+
+/* Sections */
+section {
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.1);
+  padding: 25px;
+  margin-bottom: 30px;
+  border-radius: 12px;
+  transition: 0.4s;
+}
+
+section:hover {
+  transform: translateY(-5px);
+  background: rgba(255,255,255,0.08);
+}
+
+/* Hero */
+.hero {
+  text-align: center;
+}
+
+.hero h1 {
+  font-size: 44px;
+  background: linear-gradient(90deg, #00c6ff, #ff00ff);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: glow 3s infinite alternate;
+}
+
+@keyframes glow {
+  from { text-shadow: 0 0 10px #00c6ff; }
+  to { text-shadow: 0 0 25px #ff00ff; }
+}
+
+/* Profile Image */
+.profile-img {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+  margin: 15px auto;
+  border: 3px solid #00c6ff;
+}
+
+/* Inputs */
+input, textarea {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 12px;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.15);
+  color: white;
+  border-radius: 8px;
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(90deg, #00c6ff, #ff00ff);
+  border: none;
+  color: white;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  opacity: 0.8;
+  transform: scale(1.03);
+}
+
+.comment {
+  margin-top: 15px;
+  padding: 12px;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.06);
+  transition: 0.3s;
+}
+
+.comment:hover {
+  background: rgba(255,255,255,0.1);
+}
+
+/* Fade-in animation */
+.fade-in {
+  animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 600px) {
+  .hero h1 {
+    font-size: 30px;
+  }
+}
 </style>
 </head>
 
 <body>
   <div class="city-overlay"></div>
   <div id="app" class="container">
-    <h1>Von Cristan</h1>
-    <p style="text-align:center;">WEBPROG Final Project</p>
+    <div class="hero fade-in">
+  <h1>VON CRISTAN</h1>
+  <p>Exploring Code in the City That Never Sleeps</p>
+</div>
 
-    <h2>Guestbook</h2>
+<section class="fade-in">
+  <h2>About Me</h2>
+  <img class="profile-img" src="https://i.imgur.com/yourImage.jpg" alt="Profile">
+  <p>
+    I am a passionate web developer creating modern applications using
+    Vue.js and database integration. This project demonstrates
+    frontend development, API integration, and responsive design.
+  </p>
+</section>
 
-    <input v-model="name" placeholder="Your name">
-    <textarea v-model="message" placeholder="Your message"></textarea>
-    <button @click="addComment">Post Comment</button>
+<section class="fade-in">
+  <h2>Guestbook</h2>
 
-    <div v-for="comment in comments" :key="comment.id" class="comment">
-      <strong>{{ comment.name }}</strong>
-      <p>{{ comment.message }}</p>
-    </div>
+  <input v-model="name" placeholder="Your name">
+  <textarea v-model="message" placeholder="Your message"></textarea>
+  <button @click="addComment">Post Comment</button>
+
+  <div v-for="comment in comments" :key="comment.id" class="comment">
+    <strong>{{ comment.name }}</strong>
+    <p>{{ comment.message }}</p>
+  </div>
+</section>
   </div>
 
   <script>
