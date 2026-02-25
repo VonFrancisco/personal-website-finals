@@ -38,6 +38,27 @@ function hideLoader() {
 }
 window.addEventListener('load', hideLoader)
 
+// Scroll-to-top button - appears when user scrolls down
+function initScrollToTop() {
+  const button = document.createElement('button')
+  button.className = 'scroll-to-top'
+  button.innerHTML = '↑'
+  button.setAttribute('aria-label', 'Scroll to top')
+  document.body.appendChild(button)
+
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 300) {
+      button.classList.add('visible')
+    } else {
+      button.classList.remove('visible')
+    }
+  })
+
+  button.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  })
+}
+
 // Page transitions
 document.querySelectorAll('a[href$=".html"]').forEach(link => {
   link.addEventListener('click', function(e) {
@@ -250,6 +271,7 @@ function activateGlitchMode() {
 // Initialize all on DOM ready
 document.addEventListener('DOMContentLoaded', () => {
   initScrollProgress()
+  initScrollToTop()
   initCursorGlow()
   initButtonTilt()
   initParticles()

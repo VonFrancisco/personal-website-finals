@@ -186,6 +186,44 @@ button:focus { outline: 2px solid #ff00ff; outline-offset: 2px; }
 
 button:disabled { opacity: 0.5; cursor: not-allowed; transform: scale(1); box-shadow: none; }
 
+/* Scroll-to-top button */
+.scroll-to-top {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 44px;
+  height: 44px;
+  background: rgba(0, 240, 255, 0.1);
+  border: 2px solid #00f0ff;
+  color: #00f0ff;
+  border-radius: 50%;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 999;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.scroll-to-top.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.scroll-to-top:hover {
+  background: rgba(0, 240, 255, 0.2);
+  box-shadow: 0 0 16px rgba(0, 240, 255, 0.6), inset 0 0 8px rgba(0, 240, 255, 0.3);
+  transform: translateY(-4px);
+}
+
+.scroll-to-top:active {
+  transform: translateY(0);
+}
+
 /* Hero improvements */
 .hero-subtitle { font-size: 18px; opacity: 0.7; margin-top: 12px; margin-bottom: 30px; }
 
