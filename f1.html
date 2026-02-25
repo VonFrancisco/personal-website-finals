@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="Formula 1 Racing - High-speed passion project. Featuring iconic F1 moments, legendary drivers, and thrilling race photography." />
+  <meta name="keywords" content="Formula 1, F1, racing, motorsports, drivers, cars" />
+  <meta property="og:title" content="F1 Racing - Von Cristan C. Francisco" />
+  <meta property="og:description" content="A collection of Formula 1 racing photographs and moments." />
+  <meta property="og:type" content="website" />
+  <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90' fill='%2300f0ff'>VF</text></svg>">
+  <title>F1 Racing - Von Cristan C. Francisco</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .f1-hero {
+      text-align: center;
+      padding: 60px 20px 40px;
+      background: linear-gradient(135deg, rgba(0, 240, 255, 0.05), rgba(255, 0, 255, 0.05));
+      border-radius: 12px;
+      margin-bottom: 40px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .f1-hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 2px,
+        rgba(0, 240, 255, 0.03) 2px,
+        rgba(0, 240, 255, 0.03) 4px
+      );
+      pointer-events: none;
+      animation: scanlines 8s linear infinite;
+    }
+
+    @keyframes scanlines {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(10px); }
+    }
+
+    .f1-hero-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .f1-hero h1 {
+      font-size: 48px;
+      background: linear-gradient(90deg, #ff0000, #ffaa00);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 16px;
+      text-shadow: 0 0 30px rgba(255, 0, 0, 0.3);
+    }
+
+    .f1-hero p {
+      font-size: 16px;
+      opacity: 0.8;
+      margin-bottom: 8px;
+    }
+
+    .f1-subtitle {
+      font-size: 14px;
+      opacity: 0.6;
+      font-weight: bold;
+      letter-spacing: 2px;
+      color: #ffaa00;
+    }
+
+    .f1-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+
+    .f1-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: 8px;
+      aspect-ratio: 16 / 9;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(255, 170, 0, 0.3);
+    }
+
+    .f1-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, transparent 0%, rgba(255, 0, 0, 0.2) 100%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: 2;
+    }
+
+    .f1-card:hover::before {
+      opacity: 1;
+    }
+
+    .f1-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease, filter 0.3s ease;
+    }
+
+    .f1-card:hover img {
+      transform: scale(1.08) rotate(1deg);
+      filter: brightness(1.1) saturate(1.2);
+    }
+
+    .f1-card-label {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.9));
+      padding: 30px 16px 12px;
+      color: #ffaa00;
+      font-weight: bold;
+      font-size: 14px;
+      z-index: 3;
+      transform: translateY(20px);
+      transition: transform 0.3s ease;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+    }
+
+    .f1-card:hover .f1-card-label {
+      transform: translateY(0);
+    }
+
+    .f1-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-bottom: 40px;
+      margin-top: 40px;
+    }
+
+    .f1-stat-card {
+      background: rgba(255, 170, 0, 0.05);
+      border: 1px solid rgba(255, 170, 0, 0.3);
+      border-radius: 8px;
+      padding: 24px;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+
+    .f1-stat-card:hover {
+      background: rgba(255, 170, 0, 0.1);
+      box-shadow: 0 0 20px rgba(255, 170, 0, 0.3);
+      transform: translateY(-4px);
+    }
+
+    .f1-stat-number {
+      font-size: 36px;
+      font-weight: bold;
+      background: linear-gradient(90deg, #ff0000, #ffaa00);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 8px;
+    }
+
+    .f1-stat-label {
+      font-size: 12px;
+      opacity: 0.7;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .f1-description {
+      background: rgba(0, 240, 255, 0.05);
+      border-left: 3px solid #ffaa00;
+      padding: 20px;
+      border-radius: 4px;
+      margin-bottom: 40px;
+      line-height: 1.8;
+      opacity: 0.9;
+    }
+
+    .f1-description h3 {
+      color: #ffaa00;
+      margin-bottom: 12px;
+      font-size: 18px;
+    }
+
+    .f1-description p {
+      margin-bottom: 12px;
+      font-size: 14px;
+    }
+
+    .f1-description p:last-child {
+      margin-bottom: 0;
+    }
+
+    @media (max-width: 768px) {
+      .f1-hero h1 {
+        font-size: 36px;
+      }
+
+      .f1-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
+      .f1-stats {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="loader">
+    <div class="loader-text">LOADING...</div>
+  </div>
+
+  <div class="city-overlay" aria-hidden="true"></div>
+  <canvas id="particles" aria-hidden="true"></canvas>
+
+  <nav role="navigation" aria-label="Main navigation">
+    <div class="menu-toggle" onclick="toggleMenu()" aria-label="Toggle navigation menu" role="button" tabindex="0">☰</div>
+    <div><strong>VON CRISTAN C. FRANCISCO</strong></div>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="projects.html">Projects</a>
+      <a href="guestbook.html">Guestbook</a>
+      <a href="playground.html">UI Experiments</a>
+      <a href="f1.html" aria-current="page">F1 Racing</a>
+      <a href="resources.html">Resources</a>
+    </div>
+  </nav>
+
+  <div class="page">
+    <div class="f1-hero">
+      <div class="f1-hero-content">
+        <h1>🏁 FORMULA 1 RACING</h1>
+        <p>High-speed passion. Precision engineering. Legendary moments.</p>
+        <div class="f1-subtitle">ADRENALINE • STRATEGY • PERFECTION</div>
+      </div>
+    </div>
+
+    <div class="f1-description reveal">
+      <h3>The Beautiful Game of Racing</h3>
+      <p>
+        Formula 1 represents the pinnacle of motorsport—a combination of technology, strategy, and human skill pushed to the absolute limit. 
+        Every lap is a masterclass in precision, every race a battle of wits and reflexes.
+      </p>
+      <p>
+        Welcome to a collection celebrating the most thrilling moments in racing history, where champions are forged and legends are written.
+      </p>
+    </div>
+
+    <div class="f1-stats reveal">
+      <div class="f1-stat-card">
+        <div class="f1-stat-number">73</div>
+        <div class="f1-stat-label">Seasons</div>
+      </div>
+      <div class="f1-stat-card">
+        <div class="f1-stat-number">1000+</div>
+        <div class="f1-stat-label">Grand Prix</div>
+      </div>
+      <div class="f1-stat-card">
+        <div class="f1-stat-number">23</div>
+        <div class="f1-stat-label">Races/Season</div>
+      </div>
+      <div class="f1-stat-card">
+        <div class="f1-stat-number">340+</div>
+        <div class="f1-stat-label">km/h Top Speed</div>
+      </div>
+    </div>
+
+    <h2 class="reveal" style="text-align: center; color: #ffaa00; margin-bottom: 30px;">🏎️ Iconic Moments & Legendary Drivers</h2>
+
+    <div class="f1-grid reveal">
+      <div class="f1-card">
+        <img src="https://images.unsplash.com/photo-1552820728-8ac41e9a4238?w=800&q=80&auto=format&fit=crop" alt="Formula 1 racing car at high speed">
+        <div class="f1-card-label">High Speed Drama</div>
+      </div>
+
+      <div class="f1-card">
+        <img src="https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?w=800&q=80&auto=format&fit=crop" alt="Red racing car in motion">
+        <div class="f1-card-label">Pure Power</div>
+      </div>
+
+      <div class="f1-card">
+        <img src="https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=800&q=80&auto=format&fit=crop" alt="Racing driver in cockpit">
+        <div class="f1-card-label">Precision Focus</div>
+      </div>
+
+      <div class="f1-card">
+        <img src="https://images.unsplash.com/photo-1579824343453-a2a64e8b3c3f?w=800&q=80&auto=format&fit=crop" alt="Racing track curves">
+        <div class="f1-card-label">The Track</div>
+      </div>
+
+      <div class="f1-card">
+        <img src="https://images.unsplash.com/photo-1616788213f5-3b5c2b8b5b8e?w=800&q=80&auto=format&fit=crop" alt="Formula 1 car detail">
+        <div class="f1-card-label">Engineering Marvel</div>
+      </div>
+
+      <div class="f1-card">
+        <img src="https://images.unsplash.com/photo-1489824904134-891ab64532f1?w=800&q=80&auto=format&fit=crop" alt="Night race with lights">
+        <div class="f1-card-label">Night Spectacle</div>
+      </div>
+
+      <div class="f1-card">
+        <img src="https://images.unsplash.com/photo-1609267019676-f5b6bd0f3e1a?w=800&q=80&auto=format&fit=crop" alt="Victory celebration">
+        <div class="f1-card-label">Champion's Moment</div>
+      </div>
+
+      <div class="f1-card">
+        <img src="https://images.unsplash.com/photo-1582274046382-8647c3b6def4?w=800&q=80&auto=format&fit=crop" alt="Multiple racing cars on track">
+        <div class="f1-card-label">The Battle</div>
+      </div>
+
+      <div class="f1-card">
+        <img src="https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?w=800&q=80&auto=format&fit=crop" alt="Tire smoke during turn">
+        <div class="f1-card-label">Precision Limits</div>
+      </div>
+    </div>
+
+    <section class="reveal" style="margin-top: 50px; padding: 30px; background: rgba(255, 170, 0, 0.05); border-radius: 8px; border: 1px solid rgba(255, 170, 0, 0.2);">
+      <h2 style="color: #ffaa00; margin-bottom: 20px;">Why F1?</h2>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+        <div>
+          <h3 style="color: #00f0ff; font-size: 16px; margin-bottom: 12px;">⚡ Technical Mastery</h3>
+          <p style="opacity: 0.8; font-size: 14px; line-height: 1.6;">
+            F1 cars are marvels of engineering. Aerodynamics, hybrid power units, and sophisticated electronics working in perfect harmony at speeds that defy belief.
+          </p>
+        </div>
+        <div>
+          <h3 style="color: #00f0ff; font-size: 16px; margin-bottom: 12px;">🧠 Strategic Games</h3>
+          <p style="opacity: 0.8; font-size: 14px; line-height: 1.6;">
+            Race strategy, tire management, and split-second decisions. Drivers must think three corners ahead while driving at the absolute limit.
+          </p>
+        </div>
+        <div>
+          <h3 style="color: #00f0ff; font-size: 16px; margin-bottom: 12px;">🌍 Global Stage</h3>
+          <p style="opacity: 0.8; font-size: 14px; line-height: 1.6;">
+            From Monaco to Singapore, from Monza to Suzuka. Racing on the world's most iconic and diverse tracks, each with unique challenges.
+          </p>
+        </div>
+        <div>
+          <h3 style="color: #00f0ff; font-size: 16px; margin-bottom: 12px;">🏆 Legacy of Champions</h3>
+          <p style="opacity: 0.8; font-size: 14px; line-height: 1.6;">
+            Legends like Senna, Schumacher, Prost. Modern titans like Hamilton, Verstappen, Leclerc. Each generation adds to F1's rich history.
+          </p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div class="cursor-glow" id="cursorGlow" aria-hidden="true" role="presentation"></div>
+
+  <footer class="tech-footer reveal">
+    <div class="footer-content">
+      <p>Built with <strong>Vue 3</strong> • <strong>Supabase</strong> • <strong>CSS3 Animations</strong></p>
+      <div style="margin-top: 12px; display: flex; gap: 16px; justify-content: center; opacity: 0.7;">
+        <a href="https://github.com/VonFrancisco" target="_blank" rel="noopener noreferrer" style="color: #00f0ff; text-decoration: none; font-size: 12px; transition: all 0.2s ease;" onmouseover="this.style.color='#ff00ff'; this.style.textShadow='0 0 8px #ff00ff';" onmouseout="this.style.color='#00f0ff'; this.style.textShadow='none';">GitHub</a>
+        <a href="https://www.linkedin.com/in/von-cristan-francisco-198400322/" target="_blank" rel="noopener noreferrer" style="color: #00f0ff; text-decoration: none; font-size: 12px; transition: all 0.2s ease;" onmouseover="this.style.color='#ff00ff'; this.style.textShadow='0 0 8px #ff00ff';" onmouseout="this.style.color='#00f0ff'; this.style.textShadow='none';">LinkedIn</a>
+      </div>
+      <p style="margin-top: 10px; font-size: 12px; opacity: 0.6;">Designed & developed by Von Cristan C. Francisco • 2025</p>
+    </div>
+  </footer>
+
+  <script src="main.js" defer></script>
+</body>
+</html>
