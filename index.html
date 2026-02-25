@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Von Francisco</title>
+  <title>Von Cristan - Cyberpunk Dev</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -25,89 +25,30 @@
   </nav>
 
   <div class="hero">
-    <h1 id="typing">VON CRISTAN</h1>
-    <p>Cyberpunk Portfolio</p>
+    <h1 id="typing" class="parallax">VON CRISTAN</h1>
+    <p class="hero-subtitle">Web Developer • Vue.js • Supabase • UI Systems</p>
+    <a href="projects.html" class="btn-primary">View Projects</a>
   </div>
 
   <canvas id="particles" aria-hidden="true"></canvas>
   <div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
 
+  <!-- Typing effect -->
   <script>
-  // Loader hide
-  window.addEventListener('load', () => {
-    const loader = document.getElementById('loader')
-    if (loader) {
-      loader.style.opacity = '0'
-      setTimeout(() => loader.remove(), 500)
+    const text = 'VON CRISTAN'
+    let i = 0
+    const typingEl = document.getElementById('typing')
+    typingEl.textContent = ''
+    function typeWriter() {
+      if (i < text.length) {
+        typingEl.textContent += text.charAt(i)
+        i++
+        setTimeout(typeWriter, 120)
+      }
     }
-  })
-
-  // Typing effect (keeps it simple and immediate)
-  const text = 'VON CRISTAN'
-  let i = 0
-  const typingEl = document.getElementById('typing')
-  typingEl.textContent = ''
-  function typeWriter() {
-    if (i < text.length) {
-      typingEl.textContent += text.charAt(i)
-      i++
-      setTimeout(typeWriter, 120)
-    }
-  }
-  window.addEventListener('load', typeWriter)
-
-  // Page transition links
-  document.querySelectorAll('a[href$=".html"]').forEach(link => {
-    link.addEventListener('click', function(e) {
-      e.preventDefault()
-      document.body.classList.add('fade-out')
-      setTimeout(() => window.location.href = this.href, 300)
-    })
-  })
-
-  // Mobile nav toggle
-  function toggleMenu() {
-    const links = document.querySelector('.nav-links')
-    links.classList.toggle('show')
-  }
-
-  // Cursor glow
-  const cursor = document.getElementById('cursorGlow')
-  document.addEventListener('mousemove', (e) => {
-    if (!cursor) return
-    cursor.style.left = e.clientX + 'px'
-    cursor.style.top = e.clientY + 'px'
-    cursor.style.opacity = 1
-  })
-  document.addEventListener('mouseleave', () => { if (cursor) cursor.style.opacity = 0 })
-
-  // Particles (random float) + throttled resize
-  ;(function initParticles(){
-    const canvas = document.getElementById('particles')
-    if (!canvas) return
-    const ctx = canvas.getContext('2d')
-    let w = canvas.width = window.innerWidth
-    let h = canvas.height = window.innerHeight
-    const parts = []
-    for (let k=0;k<120;k++) parts.push({ x:Math.random()*w, y:Math.random()*h, r:Math.random()*1.8+0.2, vx:(Math.random()-0.5)*0.6, vy:(Math.random()-0.5)*0.6 })
-    function step(){
-      ctx.clearRect(0,0,w,h)
-      parts.forEach(p=>{ ctx.fillStyle='rgba(0,240,255,0.75)'; ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fill(); p.x+=p.vx; p.y+=p.vy; if (p.x<0) p.x=w; if (p.x>w) p.x=0; if (p.y<0) p.y=h; if (p.y>h) p.y=0 })
-      requestAnimationFrame(step)
-    }
-    let rt
-    window.addEventListener('resize', ()=>{ clearTimeout(rt); rt = setTimeout(()=>{ w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight }, 140) })
-    step()
-  })()
-
-  // Hero parallax for heading
-  const parallaxEl = document.querySelector('.hero .parallax')
-  document.addEventListener('mousemove', (e)=>{
-    if (!parallaxEl) return
-    const cx = window.innerWidth/2, cy = window.innerHeight/2
-    const dx = (e.clientX - cx)/cx, dy = (e.clientY - cy)/cy
-    parallaxEl.style.transform = `translate(${dx*6}px, ${dy*4}px)`
-  })
+    window.addEventListener('load', typeWriter)
   </script>
+
+  <script src="main.js" defer></script>
 </body>
 </html>

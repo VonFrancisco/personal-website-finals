@@ -3,11 +3,31 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Playground - Von Francisco</title>
+    <title>Playground - Von Cristan</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="pg-container">
+    <div id="loader">
+        <div class="loader-text">LOADING...</div>
+    </div>
+
+    <div class="city-overlay" aria-hidden="true"></div>
+    <canvas id="particles" aria-hidden="true"></canvas>
+
+    <nav>
+        <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+        <div><strong>VON CRISTAN</strong></div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="projects.html">Projects</a>
+            <a href="guestbook.html">Guestbook</a>
+            <a href="playground.html">Playground</a>
+        </div>
+    </nav>
+
+    <div class="pg-container page">
+        <div class="container">
         <h1>🎮 Playground</h1>
 
         <h2>1️⃣ Neon Button Lab</h2>
@@ -70,6 +90,8 @@
             <h2 style="color: #00f0ff; margin-bottom: 15px;">Neon Modal</h2>
             <p style="opacity: 0.8; margin-bottom: 20px;">This is a stylish modal component.</p>
             <button class="btn btn-liquid" onclick="toggleModal()">Close</button>
+        </div>
+    </div>
         </div>
     </div>
 
@@ -140,5 +162,7 @@
             setTimeout(() => toast.remove(), 3000);
         }
     </script>
+
+    <script src="main.js" defer></script>
 </body>
 </html>

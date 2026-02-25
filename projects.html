@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Projects - Von Cristan</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="loader">
+    <div class="loader-text">LOADING...</div>
+  </div>
+
+  <div class="city-overlay" aria-hidden="true"></div>
+  <canvas id="particles" aria-hidden="true"></canvas>
+
+  <nav>
+    <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+    <div><strong>VON CRISTAN</strong></div>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="projects.html">Projects</a>
+      <a href="guestbook.html">Guestbook</a>
+      <a href="playground.html">Playground</a>
+    </div>
+  </nav>
+
+  <div class="page">
+    <h1 class="reveal">Projects</h1>
+    <p class="reveal" style="margin-bottom: 40px;">A selection of work showcasing Vue.js, real-time databases, and cyberpunk design.</p>
+
+    <div class="projects-grid">
+      <div class="project-card reveal">
+        <div class="project-header">
+          <h3>Personal Website</h3>
+          <span class="project-year">2025</span>
+        </div>
+        <p class="project-desc">Neon cyberpunk portfolio with animated particles, scroll reveals, and glassmorphic cards. Featuring smooth page transitions and real-time guestbook powered by Supabase.</p>
+        <div class="project-tech">
+          <span class="tech-badge">Vue.js</span>
+          <span class="tech-badge">Supabase</span>
+          <span class="tech-badge">CSS3</span>
+          <span class="tech-badge">Particles</span>
+        </div>
+        <div class="project-links">
+          <a href="#" class="link-btn">Live Demo</a>
+          <a href="#" class="link-btn secondary">GitHub</a>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-header">
+          <h3>Real-Time Collaboration App</h3>
+          <span class="project-year">2024</span>
+        </div>
+        <p class="project-desc">Multi-user dashboard with live data sync using Supabase real-time subscriptions. Features real-time cursor tracking, instant updates, and collaborative editing capabilities.</p>
+        <div class="project-tech">
+          <span class="tech-badge">Vue 3</span>
+          <span class="tech-badge">Supabase</span>
+          <span class="tech-badge">WebSockets</span>
+          <span class="tech-badge">Auth</span>
+        </div>
+        <div class="project-links">
+          <a href="#" class="link-btn">Live Demo</a>
+          <a href="#" class="link-btn secondary">GitHub</a>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-header">
+          <h3>UI Component Library</h3>
+          <span class="project-year">2024</span>
+        </div>
+        <p class="project-desc">Reusable neon-themed component library with animated buttons, modals, dropdowns, and toast notifications. Fully documented and production-ready.</p>
+        <div class="project-tech">
+          <span class="tech-badge">Vue</span>
+          <span class="tech-badge">CSS Animations</span>
+          <span class="tech-badge">Storybook</span>
+          <span class="tech-badge">NPM</span>
+        </div>
+        <div class="project-links">
+          <a href="#" class="link-btn">View Docs</a>
+          <a href="#" class="link-btn secondary">NPM Package</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
+
+  <script src="main.js" defer></script>
+</body>
+</html>
