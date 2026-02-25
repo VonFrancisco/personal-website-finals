@@ -15,35 +15,6 @@ function debounce(func, wait) {
   }
 }
 
-// Background image carousel - rotates through city/night backgrounds
-function initBackgroundCarousel() {
-  const backgroundImages = [
-    'https://imgur.com/new-york-night-fwgGV3G.jpg',
-    'https://i.redd.it/w52vxsl1hyn91.png',
-    'https://images.alphacoders.com/929/thumb-1920-929018.jpg',
-    'https://i.imgur.com/OQh9CBc.jpeg',
-    'https://i.imgur.com/Kx6oWhw.jpeg'
-  ]
-
-  // Create carousel container
-  const carousel = document.createElement('div')
-  carousel.className = 'bg-carousel'
-  document.body.insertBefore(carousel, document.body.firstChild)
-
-  let currentIndex = 0
-
-  function setBackground() {
-    carousel.style.backgroundImage = `url('${backgroundImages[currentIndex]}')`
-    currentIndex = (currentIndex + 1) % backgroundImages.length
-  }
-
-  // Set initial background
-  setBackground()
-
-  // Rotate every 8 seconds
-  setInterval(setBackground, 8000)
-}
-
 // Scroll progress bar - visual feedback on scroll position
 function initScrollProgress() {
   const progressBar = document.createElement('div')
@@ -278,7 +249,6 @@ function activateGlitchMode() {
 
 // Initialize all on DOM ready
 document.addEventListener('DOMContentLoaded', () => {
-  initBackgroundCarousel()
   initScrollProgress()
   initCursorGlow()
   initButtonTilt()
