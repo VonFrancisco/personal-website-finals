@@ -1,6 +1,21 @@
 // ===== SHARED FUNCTIONALITY =====
+// Core initialization functions for animations, interactions, and performance
 
-// Scroll progress bar
+// Debounce utility for performance optimization
+// Prevents rapid function calls (e.g., resize handlers)
+function debounce(func, wait) {
+  let timeout
+  return function executedFunction(...args) {
+    const later = () => {
+      clearTimeout(timeout)
+      func(...args)
+    }
+    clearTimeout(timeout)
+    timeout = setTimeout(later, wait)
+  }
+}
+
+// Scroll progress bar - visual feedback on scroll position
 function initScrollProgress() {
   const progressBar = document.createElement('div')
   progressBar.className = 'scroll-progress'
@@ -13,7 +28,7 @@ function initScrollProgress() {
   })
 }
 
-// Loader
+// Loader - smooth fade out on page load
 function hideLoader() {
   const loader = document.getElementById('loader')
   if (loader) {
@@ -27,8 +42,12 @@ window.addEventListener('load', hideLoader)
 document.querySelectorAll('a[href$=".html"]').forEach(link => {
   link.addEventListener('click', function(e) {
     e.preventDefault()
-    document.body.classList.add('fade-out')
-    setTimeout(() => window.location.href = this.href, 300)
+    const target = this.href
+    document.body.style.opacity = '0'
+    document.body.style.transition = 'opacity 0.25s ease-out'
+    setTimeout(() => {
+      window.location.href = target
+    }, 250)
   })
 })
 
@@ -38,6 +57,19 @@ function toggleMenu() {
   if (links) links.classList.toggle('show')
 }
 window.toggleMenu = toggleMenu
+
+// Keyboard support for menu toggle
+function initKeyboardNav() {
+  const menuToggle = document.querySelector('.menu-toggle')
+  if (menuToggle) {
+    menuToggle.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault()
+        toggleMenu()
+      }
+    })
+  }
+}
 
 // Cursor glow
 function initCursorGlow() {
@@ -72,7 +104,9 @@ function initButtonTilt() {
   })
 }
 
-// Particles (floating in random directions)
+// Particles - animated background canvas for visual depth
+// Optimized particle count based on device (mobile: 25, tablet: 40, desktop: 100)
+// Uses requestAnimationFrame for smooth 60fps performance
 function initParticles() {
   const canvas = document.getElementById('particles')
   if (!canvas) return
@@ -84,8 +118,15 @@ function initParticles() {
   const particles = []
   let animationId
 
-  // Reduce particles on mobile
-  const particleCount = window.innerWidth < 768 ? 40 : 120
+  // Performance: reduce particles dramatically on mobile/tablets
+  let particleCount
+  if (window.innerWidth < 480) {
+    particleCount = 25 // Ultra-low for mobile
+  } else if (window.innerWidth < 768) {
+    particleCount = 40 // Low for tablets
+  } else {
+    particleCount = 100 // Standard for desktop
+  }
 
   for (let i = 0; i < particleCount; i++) {
     particles.push({
@@ -123,14 +164,13 @@ function initParticles() {
     }
   })
 
-  let resizeTimer
-  window.addEventListener('resize', () => {
-    clearTimeout(resizeTimer)
-    resizeTimer = setTimeout(() => {
-      w = canvas.width = window.innerWidth
-      h = canvas.height = window.innerHeight
-    }, 140)
-  })
+  // Debounce resize for performance
+  const handleResize = debounce(() => {
+    w = canvas.width = window.innerWidth
+    h = canvas.height = window.innerHeight
+  }, 200)
+
+  window.addEventListener('resize', handleResize)
 
   draw()
 }
@@ -159,6 +199,54 @@ function initHeroParallax() {
   })
 }
 
+// Easter egg: Konami code for glitch mode
+function initKonamiCode() {
+  const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a']
+  let konamiIndex = 0
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === konamiCode[konamiIndex]) {
+      konamiIndex++
+      if (konamiIndex === konamiCode.length) {
+        activateGlitchMode()
+        konamiIndex = 0
+      }
+    } else {
+      konamiIndex = 0
+    }
+  })
+}
+
+function activateGlitchMode() {
+  document.body.classList.toggle('glitch-mode')
+  const h1 = document.querySelector('h1')
+  if (h1) {
+    h1.textContent = h1.textContent === 'VON CRISTAN C. FRANCISCO' ? '⚡G4LT_UR3⚡' : 'VON CRISTAN C. FRANCISCO'
+  }
+  
+  // Show glitch notification
+  const notification = document.createElement('div')
+  notification.style.cssText = `
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px 40px;
+    background: rgba(0, 240, 255, 0.1);
+    border: 2px solid #00f0ff;
+    border-radius: 8px;
+    color: #00f0ff;
+    font-weight: bold;
+    font-size: 18px;
+    z-index: 5000;
+    animation: glitchPulse 0.6s ease-out;
+    text-shadow: 0 0 10px #ff00ff;
+  `
+  notification.textContent = 'GLITCH MODE ACTIVATED ⚡'
+  document.body.appendChild(notification)
+  setTimeout(() => notification.remove(), 2000)
+}
+
 // Initialize all on DOM ready
 document.addEventListener('DOMContentLoaded', () => {
   initScrollProgress()
@@ -167,6 +255,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initParticles()
   initScrollReveal()
   initHeroParallax()
+  initKeyboardNav()
   initKonamiCode()
 })
 

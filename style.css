@@ -17,6 +17,12 @@ body {
   background: #050510;
   color: #ffffff;
   overflow-x: hidden;
+  animation: pageEnter 0.5s ease-in;
+}
+
+@keyframes pageEnter {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 /* =========================
@@ -78,6 +84,12 @@ nav a:hover {
   text-shadow: 0 0 10px #ff00ff;
 }
 
+nav a:focus {
+  outline: 2px solid #ff00ff;
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
 /* =========================
    HERO SECTION
 ========================= */
@@ -95,9 +107,9 @@ nav a:hover {
   font-size: 64px;
   color: #00f0ff;
   text-shadow:
-    0 0 5px #00f0ff,
-    0 0 10px #00f0ff,
-    0 0 15px #00f0ff;
+    0 0 3px #00f0ff,
+    0 0 8px #00f0ff,
+    0 0 12px #00f0ff;
 }
 
 .hero p {
@@ -160,9 +172,18 @@ button {
   cursor: pointer;
   transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
   border-radius: 8px;
+  font-size: 14px;
 }
 
-button:hover { transform: scale(1.03); box-shadow: 0 0 18px #00f0ff; box-shadow: 0 0 18px #00f0ff; }
+button:hover, button:focus { 
+  transform: scale(1.03); 
+  box-shadow: 0 0 18px #00f0ff;
+  outline: 2px solid #00f0ff;
+  outline-offset: 2px;
+}
+
+button:focus { outline: 2px solid #ff00ff; outline-offset: 2px; }
+
 button:disabled { opacity: 0.5; cursor: not-allowed; transform: scale(1); box-shadow: none; }
 
 /* Hero improvements */
@@ -202,7 +223,7 @@ section {
 section:hover {
   transform: translateY(-8px);
   border-color: rgba(0,240,255,0.3);
-  box-shadow: 0 12px 40px rgba(0,240,255,0.15), 0 0 30px rgba(255,0,255,0.06);
+  box-shadow: 0 8px 32px rgba(0,240,255,0.08), 0 0 20px rgba(255,0,255,0.03);
 }
 
 /* Neon border animation on sections */
@@ -214,6 +235,7 @@ section::before {
   padding: 1px;
   background: linear-gradient(135deg, rgba(0,240,255,0.3), rgba(255,0,255,0.2));
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
   opacity: 0;
@@ -561,6 +583,7 @@ section {
 
   nav a {
     font-size: 11px;
+    margin-left: 12px;
   }
 
   h1 {
@@ -573,15 +596,21 @@ section {
 
   .page input, #app input {
     font-size: 16px;
+    padding: 14px;
+    min-height: 44px;
   }
 
   .page textarea, #app textarea {
     font-size: 16px;
+    padding: 14px;
+    min-height: 120px;
   }
 
   button {
-    padding: 10px 14px;
+    padding: 12px 16px;
     font-size: 13px;
+    min-height: 44px;
+    min-width: 44px;
   }
 
   .project-header h3 {
@@ -622,6 +651,7 @@ section {
   .link-btn {
     font-size: 11px;
     padding: 8px 12px;
+    min-height: 40px;
   }
 
   .contact-link {
@@ -640,6 +670,17 @@ section {
     font-size: 18px;
   }
 
+  .error-message {
+    font-size: 12px;
+  }
+
+  .resources-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .resource-card {
+    padding: 16px;
+  }
 }
 
 /* =========================
@@ -661,7 +702,7 @@ section {
 
 nav > div strong {
   color: #00f0ff;
-  text-shadow: 0 0 8px rgba(0,240,255,0.9), 0 0 22px rgba(255,0,255,0.06);
+  text-shadow: 0 0 6px rgba(0,240,255,0.7), 0 0 12px rgba(255,0,255,0.03);
 }
 
 /* Neon underline animation */
@@ -716,7 +757,8 @@ nav a:hover::after { transform: scaleX(1); }
   font-size: 60px;
   background: linear-gradient(90deg,#00f0ff,#ff00ff);
   -webkit-background-clip: text;
-  color: transparent;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
   white-space: nowrap;
   overflow: hidden;
 }
@@ -948,6 +990,150 @@ section.reveal:nth-child(5) { animation-delay: 0.4s; }
 .btn-glitch { background: transparent; border: 2px solid #00ff00; color: #00ff00; position: relative; }
 .btn-glitch:hover { animation: glitch 0.3s; }
 @keyframes glitch { 0% { transform: translate(0); } 20% { transform: translate(-2px, 2px); } 40% { transform: translate(-2px, -2px); } 60% { transform: translate(2px, 2px); } 80% { transform: translate(2px, -2px); } 100% { transform: translate(0); } }
+
+/* =========================
+   FORM VALIDATION & ERRORS
+========================= */
+
+.form-group { margin-bottom: 16px; }
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 12px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  color: white;
+  border-radius: 8px;
+  transition: border-color 0.2s ease;
+  font-size: 14px;
+}
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: rgba(0,240,255,0.3);
+  box-shadow: 0 0 12px rgba(0,240,255,0.15);
+}
+
+.error-box {
+  background: rgba(255, 107, 107, 0.1);
+  border: 1px solid rgba(255, 107, 107, 0.3);
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 16px;
+  animation: slideDown 0.3s ease;
+}
+
+.error-message {
+  color: #ff6b6b;
+  font-size: 13px;
+  margin: 4px 0;
+  line-height: 1.4;
+}
+
+.success-box {
+  background: rgba(51, 204, 102, 0.1);
+  border: 1px solid rgba(51, 204, 102, 0.3);
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  color: #33cc66;
+  font-size: 13px;
+  animation: slideDown 0.3s ease;
+}
+
+.retry-btn {
+  background: rgba(0,240,255,0.1);
+  border: 1px solid rgba(0,240,255,0.4);
+  color: #00f0ff;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.retry-btn:hover {
+  background: rgba(0,240,255,0.2);
+  box-shadow: 0 0 8px rgba(0,240,255,0.3);
+}
+
+.retry-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.empty-state {
+  animation: fadeIn 0.5s ease;
+}
+
+/* =========================
+   RESOURCES PAGE
+========================= */
+
+.resources-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  margin: 24px 0;
+}
+
+.resource-card {
+  padding: 20px;
+  background: linear-gradient(135deg, rgba(0,240,255,0.03), rgba(255,0,255,0.02));
+  border: 1px solid rgba(0,240,255,0.1);
+  border-radius: 10px;
+  backdrop-filter: blur(6px);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.resource-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 100% 0%, rgba(0,240,255,0.08), transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.resource-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(0,240,255,0.25);
+  box-shadow: 0 12px 36px rgba(0,240,255,0.1);
+}
+
+.resource-card:hover::before { opacity: 1; }
+
+.resource-card h3 {
+  color: #00f0ff;
+  font-size: 16px;
+  margin-bottom: 10px;
+  margin: 0 0 10px 0;
+}
+
+.resource-link {
+  display: inline-block;
+  color: #ff00ff;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: bold;
+  margin-top: 10px;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.resource-link:hover {
+  color: #00f0ff;
+  transform: translateX(4px);
+}
+
+.resource-link.disabled {
+  opacity: 0.5;
+  cursor: default;
+  pointer-events: none;
+}
 
 .bg-lab { position: relative; height: 400px; border-radius: 12px; background: rgba(0,0,0,0.4); border: 1px solid rgba(0,240,255,0.2); overflow: hidden; margin: 30px 0; }
 .mouse-light { position: absolute; width: 200px; height: 200px; border-radius: 50%; background: radial-gradient(circle, rgba(0,240,255,0.4), transparent); filter: blur(40px); pointer-events: none; }

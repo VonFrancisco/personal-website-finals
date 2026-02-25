@@ -3,6 +3,12 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="Sign Von Cristan's guestbook - a real-time community space powered by Vue.js and Supabase." />
+  <meta name="keywords" content="guestbook, community, feedback, contact" />
+  <meta property="og:title" content="Guestbook - Von Cristan C. Francisco" />
+  <meta property="og:description" content="Sign the guestbook and leave a message for Von Cristan" />
+  <meta property="og:type" content="website" />
+  <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90' fill='%2300f0ff'>VF</text></svg>">
   <title>Guestbook - Von Cristan C. Francisco</title>
   <link rel="stylesheet" href="style.css">
 
@@ -30,6 +36,7 @@
       <a href="projects.html">Projects</a>
       <a href="guestbook.html">Guestbook</a>
       <a href="playground.html">UI Experiments</a>
+      <a href="resources.html">Resources</a>
     </div>
   </nav>
 
@@ -38,26 +45,93 @@
       <h1>Guestbook</h1>
       <p style="opacity: 0.75; margin-bottom: 20px;">Sign the guestbook—I'd love to hear from you!</p>
 
-      <input v-model="name" placeholder="Your name" maxlength="50">
-      <textarea v-model="message" placeholder="Your message" maxlength="300" @input="updateCharCount"></textarea>
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-        <span style="font-size: 12px; opacity: 0.6;">{{ messageLength }} / 300 characters</span>
-        <button @click="addComment" :disabled="!name || !message" style="width: auto; padding: 8px 16px;">Post Comment</button>
+      <!-- Error Messages -->
+      <div v-if="errors.length > 0" class="error-box" role="alert">
+        <div v-for="(error, idx) in errors" :key="idx" class="error-message">
+          ⚠️ {{ error }}
+        </div>
+        <button v-if="fetchError && !isLoading" @click="fetchComments" class="retry-btn" style="margin-top: 8px;">
+          ↻ Retry Loading
+        </button>
       </div>
 
-      <div v-if="comments.length === 0" style="text-align: center; padding: 40px 0; opacity: 0.6;">
-        <p>No messages yet. Be the first to sign! ✨</p>
+      <!-- Success Message -->
+      <div v-if="successMessage" class="success-box reveal">
+        ✅ {{ successMessage }}
       </div>
 
-      <div v-for="comment in comments" :key="comment.id" class="comment reveal">
-        <strong style="color: #00f0ff;">{{ comment.name }}</strong>
-        <p style="margin-top: 8px; opacity: 0.85;">{{ comment.message }}</p>
+      <!-- Form -->
+      <div class="form-group">
+        <label for="nameInput" style="font-size: 12px; opacity: 0.7; display: block; margin-bottom: 4px;">Name (required)</label>
+        <input 
+          id="nameInput"
+          v-model="name" 
+          placeholder="Your name" 
+          maxlength="50"
+          @input="clearErrors"
+          aria-label="Your name"
+        >
+        <span v-if="name.trim().length === 0 && touched.name" style="font-size: 12px; color: #ff6b6b; margin-top: 4px; display: block;">Name is required</span>
+      </div>
+
+      <div class="form-group">
+        <label for="messageInput" style="font-size: 12px; opacity: 0.7; display: block; margin-bottom: 4px;">Message (5-300 characters)</label>
+        <textarea 
+          id="messageInput"
+          v-model="message" 
+          placeholder="Your message..." 
+          maxlength="300" 
+          @input="updateCharCount"
+          aria-label="Your message"
+        ></textarea>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px;">
+          <span style="font-size: 12px; opacity: 0.6;">{{ messageLength }} / 300 characters</span>
+          <span v-if="message.trim().length > 0 && message.trim().length < 5" style="font-size: 12px; color: #ffa500;">Minimum 5 characters</span>
+        </div>
+      </div>
+
+      <button 
+        @click="addComment" 
+        :disabled="isSubmitting || !isFormValid"
+        style="width: auto; padding: 8px 16px; margin-bottom: 20px;"
+        aria-label="Post comment to guestbook"
+      >
+        {{ isSubmitting ? '✋ Posting...' : '✉️ Leave Message' }}
+      </button>
+
+      <!-- Loading State -->
+      <div v-if="isLoading" style="text-align: center; padding: 40px 0; opacity: 0.7;">
+        <p>📖 Loading messages…</p>
+      </div>
+
+      <!-- Error Fetch State -->
+      <div v-else-if="fetchError" style="text-align: center; padding: 40px 0;">
+        <p style="color: #ff6b6b; opacity: 0.9;">❌ Failed to load comments. Please refresh the page.</p>
+      </div>
+
+      <!-- Empty State -->
+      <div v-else-if="comments.length === 0" class="empty-state" style="text-align: center; padding: 60px 20px;">
+        <div style="font-size: 48px; margin-bottom: 16px;">✨</div>
+        <h3 style="color: #00f0ff; margin-bottom: 8px; font-size: 20px;">No messages yet</h3>
+        <p style="opacity: 0.6; margin-bottom: 24px;">Be the first to leave a message and start the conversation!</p>
+        <div style="width: 60px; height: 2px; background: linear-gradient(90deg, #00f0ff, #ff00ff); margin: 0 auto;"></div>
+      </div>
+
+      <!-- Comments List -->
+      <div v-else>
+        <div v-for="comment in comments" :key="comment.id" class="comment reveal">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
+            <strong style="color: #00f0ff;">{{ comment.name }}</strong>
+            <span style="font-size: 11px; opacity: 0.5;">{{ formatTime(comment.created_at) }}</span>
+          </div>
+          <p style="margin-top: 8px; opacity: 0.85;">{{ comment.message }}</p>
+        </div>
       </div>
     </div>
   </div>
 
   <script>
-  const { createApp, ref, onMounted } = Vue
+  const { createApp, ref, computed, onMounted } = Vue
   const { createClient } = supabase
 
   const db = createClient(
@@ -65,38 +139,178 @@
     'sb_publishable_yNAeLHsCJIw3rUPUMy8A-w_kJ4xx3Lk'
   )
 
+  // Debounce utility
+  function debounce(func, wait) {
+    let timeout
+    return function executedFunction(...args) {
+      const later = () => {
+        clearTimeout(timeout)
+        func(...args)
+      }
+      clearTimeout(timeout)
+      timeout = setTimeout(later, wait)
+    }
+  }
+
   createApp({
     setup() {
       const name = ref('')
       const message = ref('')
       const comments = ref([])
       const messageLength = ref(0)
-      const messageLength = ref(0)
+      const errors = ref([])
+      const successMessage = ref('')
+      const isSubmitting = ref(false)
+      const isLoading = ref(true)
+      const fetchError = ref(false)
+      const touched = ref({ name: false, message: false })
+      let lastSubmitText = '' // Prevent duplicate submissions
 
-      async function fetchComments() {
-        const { data } = await db.from('guestbook').select('*').order('created_at', { ascending: false })
-        comments.value = data || []
+      const isFormValid = computed(() => {
+        return name.value.trim().length > 0 && 
+               message.value.trim().length >= 5
+      })
+
+      function formatTime(isoDate) {
+        if (!isoDate) return ''
+        const date = new Date(isoDate)
+        const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+        const month = monthNames[date.getMonth()]
+        const day = date.getDate()
+        const year = date.getFullYear()
+        const hour = String(date.getHours()).padStart(2, '0')
+        const min = String(date.getMinutes()).padStart(2, '0')
+        const ampm = date.getHours() >= 12 ? 'PM' : 'AM'
+        const display12Hour = String(date.getHours() % 12 || 12).padStart(2, '0')
+        return `${month} ${day}, ${year} · ${display12Hour}:${min} ${ampm}`
       }
 
-      async function addComment() {
-        if (!name.value || !message.value) return
-        const btn = document.querySelector('button[style*="width: auto"]')
-        if (btn) btn.disabled = true
+      async function fetchComments() {
         try {
-          await db.from('guestbook').insert([{ name: name.value, message: message.value }])
-          name.value = ''
-          message.value = ''
-          messageLength.value = 0
-          fetchComments()
+          isLoading.value = true
+          fetchError.value = false
+          errors.value = []
+          
+          const { data, error } = await db
+            .from('guestbook')
+            .select('*')
+            .order('created_at', { ascending: false })
+            .timeout(8000) // 8 second timeout
+            
+          if (error) throw error
+          comments.value = data || []
+        } catch (err) {
+          console.error('Failed to fetch comments:', err)
+          fetchError.value = true
+          errors.value = ['Unable to load messages. Please check your internet connection.']
         } finally {
-          if (btn) btn.disabled = false
+          isLoading.value = false
         }
       }
 
-      const updateCharCount = () => { messageLength.value = message.value.length }
+      function validateForm() {
+        errors.value = []
+        touched.value.name = true
+        touched.value.message = true
+
+        if (!name.value.trim()) {
+          errors.value.push('Please enter your name')
+        } else if (name.value.trim().length < 2) {
+          errors.value.push('Name must be at least 2 characters')
+        } else if (name.value.length > 50) {
+          errors.value.push('Name cannot exceed 50 characters')
+        }
+
+        if (!message.value.trim()) {
+          errors.value.push('Please write a message')
+        } else if (message.value.trim().length < 5) {
+          errors.value.push('Message must be at least 5 characters')
+        } else if (message.value.length > 300) {
+          errors.value.push('Message cannot exceed 300 characters')
+        }
+
+        return errors.value.length === 0
+      }
+
+      async function addComment() {
+        if (!validateForm()) return
+        if (isSubmitting.value) return // Prevent spam clicks
+
+        // Duplicate submission prevention
+        const currentText = `${name.value.trim()}|${message.value.trim()}`
+        if (currentText === lastSubmitText) {
+          errors.value = ['This message was just posted. Please write something new!']
+          return
+        }
+
+        isSubmitting.value = true
+        successMessage.value = ''
+        try {
+          // Optional: add a small delay to prevent rapid-fire submissions
+          await new Promise(r => setTimeout(r, 300))
+
+          const { error } = await db.from('guestbook').insert([
+            { 
+              name: name.value.trim(), 
+              message: message.value.trim() 
+            }
+          ])
+          if (error) throw error
+          
+          lastSubmitText = currentText
+          name.value = ''
+          message.value = ''
+          messageLength.value = 0
+          successMessage.value = '✅ Message posted successfully! Thanks for sharing.'
+          touched.value = { name: false, message: false }
+          errors.value = []
+          
+          setTimeout(() => {
+            successMessage.value = ''
+          }, 4000)
+          
+          await fetchComments()
+        } catch (err) {
+          console.error('Error posting comment:', err)
+          if (err.message && err.message.includes('timeout')) {
+            errors.value = ['Network timeout. Please check your connection and try again.']
+          } else if (err.message && err.message.includes('network')) {
+            errors.value = ['Network error. Please check your internet and try again.']
+          } else {
+            errors.value = ['Couldn\'t post your message. Please try again.']
+          }
+        } finally {
+          isSubmitting.value = false
+        }
+      }
+
+      const updateCharCount = () => { 
+        messageLength.value = message.value.length
+      }
+
+      const clearErrors = () => {
+        errors.value = []
+      }
 
       onMounted(fetchComments)
-      return { name, message, comments, addComment, messageLength, updateCharCount }
+      return { 
+        name, 
+        message, 
+        comments, 
+        addComment, 
+        messageLength, 
+        updateCharCount,
+        errors,
+        successMessage,
+        isSubmitting,
+        isLoading,
+        fetchError,
+        touched,
+        isFormValid,
+        formatTime,
+        clearErrors,
+        fetchComments
+      }
     }
   }).mount('#app')
   </script>

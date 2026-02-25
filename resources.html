@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="Resources and acknowledgments for Von Cristan's portfolio - CDNs, libraries, tools, and assets used." />
+  <meta name="keywords" content="resources, credits, Vue.js, Supabase, web development" />
+  <meta property="og:title" content="Resources - Von Cristan C. Francisco" />
+  <meta property="og:description" content="Explore the tools and libraries powering this portfolio." />
+  <meta property="og:type" content="website" />
+  <title>Resources - Von Cristan C. Francisco</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="loader">
+    <div class="loader-text">LOADING...</div>
+  </div>
+
+  <nav>
+    <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+    <div><strong>VON CRISTAN C. FRANCISCO</strong></div>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="projects.html">Projects</a>
+      <a href="guestbook.html">Guestbook</a>
+      <a href="playground.html">UI Experiments</a>
+      <a href="resources.html">Resources</a>
+    </div>
+  </nav>
+
+  <canvas id="particles" aria-hidden="true"></canvas>
+  <div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
+
+  <div class="page">
+    <h1 class="reveal">Resources & Credits</h1>
+    <p class="reveal" style="margin-bottom: 40px; opacity: 0.8;">All the tools, libraries, CDNs, and resources that power this portfolio.</p>
+
+    <section class="reveal">
+      <h2>🎨 Frontend Frameworks & Libraries</h2>
+      <div class="resources-grid">
+        <div class="resource-card">
+          <h3>Vue.js 3</h3>
+          <p style="opacity: 0.8; font-size: 13px;">Progressive JavaScript framework for building interactive user interfaces.</p>
+          <a href="https://vuejs.org" target="_blank" rel="noopener noreferrer" class="resource-link">Visit →</a>
+        </div>
+        <div class="resource-card">
+          <h3>Canvas API</h3>
+          <p style="opacity: 0.8; font-size: 13px;">Native HTML5 API for creating animated particle systems and graphics.</p>
+          <a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API" target="_blank" rel="noopener noreferrer" class="resource-link">Learn →</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="reveal">
+      <h2>🗄️ Backend & Database</h2>
+      <div class="resources-grid">
+        <div class="resource-card">
+          <h3>Supabase</h3>
+          <p style="opacity: 0.8; font-size: 13px;">Open-source Firebase alternative with PostgreSQL, real-time subscriptions, and authentication.</p>
+          <a href="https://supabase.com" target="_blank" rel="noopener noreferrer" class="resource-link">Visit →</a>
+        </div>
+        <div class="resource-card">
+          <h3>PostgreSQL</h3>
+          <p style="opacity: 0.8; font-size: 13px;">Powerful, open-source relational database system used by Supabase.</p>
+          <a href="https://www.postgresql.org" target="_blank" rel="noopener noreferrer" class="resource-link">Visit →</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="reveal">
+      <h2>⚙️ Development Tools</h2>
+      <div class="resources-grid">
+        <div class="resource-card">
+          <h3>VS Code</h3>
+          <p style="opacity: 0.8; font-size: 13px;">Lightweight, powerful code editor with first-class support for web development.</p>
+          <a href="https://code.visualstudio.com" target="_blank" rel="noopener noreferrer" class="resource-link">Download →</a>
+        </div>
+        <div class="resource-card">
+          <h3>Git & GitHub</h3>
+          <p style="opacity: 0.8; font-size: 13px;">Version control system and platform for collaborative software development.</p>
+          <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="resource-link">Visit →</a>
+        </div>
+        <div class="resource-card">
+          <h3>Figma</h3>
+          <p style="opacity: 0.8; font-size: 13px;">Collaborative design tool for UI/UX design and prototyping.</p>
+          <a href="https://figma.com" target="_blank" rel="noopener noreferrer" class="resource-link">Visit →</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="reveal">
+      <h2>🌐 CDN & Hosting</h2>
+      <div class="resources-grid">
+        <div class="resource-card">
+          <h3>jsDelivr</h3>
+          <p style="opacity: 0.8; font-size: 13px;">Fast and reliable CDN for npm packages and open-source libraries.</p>
+          <a href="https://jsdelivr.com" target="_blank" rel="noopener noreferrer" class="resource-link">Visit →</a>
+        </div>
+        <div class="resource-card">
+          <h3>unpkg</h3>
+          <p style="opacity: 0.8; font-size: 13px;">Fast, global CDN for everything on npm.</p>
+          <a href="https://unpkg.com" target="_blank" rel="noopener noreferrer" class="resource-link">Visit →</a>
+        </div>
+        <div class="resource-card">
+          <h3>Vercel</h3>
+          <p style="opacity: 0.8; font-size: 13px;">Next-generation platform for static sites and serverless functions.</p>
+          <a href="https://vercel.com" target="_blank" rel="noopener noreferrer" class="resource-link">Visit →</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="reveal">
+      <h2>📚 Learning Resources & Inspiration</h2>
+      <div class="resources-grid">
+        <div class="resource-card">
+          <h3>MDN Web Docs</h3>
+          <p style="opacity: 0.8; font-size: 13px;">Comprehensive reference for web technologies and JavaScript.</p>
+          <a href="https://developer.mozilla.org" target="_blank" rel="noopener noreferrer" class="resource-link">Visit →</a>
+        </div>
+        <div class="resource-card">
+          <h3>CSS-Tricks</h3>
+          <p style="opacity: 0.8; font-size: 13px;">Daily articles about CSS, HTML, JavaScript, and web design.</p>
+          <a href="https://css-tricks.com" target="_blank" rel="noopener noreferrer" class="resource-link">Visit →</a>
+        </div>
+        <div class="resource-card">
+          <h3>Dev.to</h3>
+          <p style="opacity: 0.8; font-size: 13px;">Community of software developers sharing knowledge and stories.</p>
+          <a href="https://dev.to" target="_blank" rel="noopener noreferrer" class="resource-link">Visit →</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="reveal">
+      <h2>✨ Font & Design Resources</h2>
+      <div class="resources-grid">
+        <div class="resource-card">
+          <h3>Segoe UI</h3>
+          <p style="opacity: 0.8; font-size: 13px;">Default system font providing clean, modern typography.</p>
+          <a href="#" class="resource-link disabled">System Font</a>
+        </div>
+        <div class="resource-card">
+          <h3>Unsplash</h3>
+          <p style="opacity: 0.8; font-size: 13px;">Beautiful, free photos and images for projects.</p>
+          <a href="https://unsplash.com" target="_blank" rel="noopener noreferrer" class="resource-link">Visit →</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="reveal">
+      <h2>🤖 AI & Assistance</h2>
+      <div class="resources-grid">
+        <div class="resource-card">
+          <h3>GitHub Copilot</h3>
+          <p style="opacity: 0.8; font-size: 13px;">AI-powered code completion and pair programmer in VS Code.</p>
+          <a href="https://github.com/features/copilot" target="_blank" rel="noopener noreferrer" class="resource-link">Learn →</a>
+        </div>
+        <div class="resource-card">
+          <h3>Claude (Anthropic)</h3>
+          <p style="opacity: 0.8; font-size: 13px;">Advanced AI assistant used for code review and technical guidance.</p>
+          <a href="https://claude.ai" target="_blank" rel="noopener noreferrer" class="resource-link">Visit →</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="reveal">
+      <h2>📖 Acknowledgments</h2>
+      <p style="opacity: 0.85; line-height: 1.8;">
+        This portfolio wouldn't exist without the amazing open-source community and the brilliant tools built by developers worldwide. Special thanks to:
+      </p>
+      <ul style="margin-top: 16px; opacity: 0.8; line-height: 2;">
+        <li>✓ The Vue.js team for building an intuitive and powerful framework</li>
+        <li>✓ Supabase for making real-time databases accessible to everyone</li>
+        <li>✓ The MDN documentation team for comprehensive web API references</li>
+        <li>✓ Open-source contributors who make web development better every day</li>
+      </ul>
+    </section>
+
+  </div>
+
+  <footer class="tech-footer reveal">
+    <div class="footer-content">
+      <p>Built with <strong>Vue 3</strong> • <strong>Supabase</strong> • <strong>CSS3 Animations</strong></p>
+      <p style="margin-top: 10px; font-size: 12px; opacity: 0.6;">Designed & developed by Von Cristan C. Francisco • 2025</p>
+    </div>
+  </footer>
+
+  <script src="main.js" defer></script>
+</body>
+</html>

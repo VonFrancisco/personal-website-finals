@@ -3,6 +3,17 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="Von Cristan - Web Developer. Specializing in Vue.js, Supabase, and UI Systems. Building beautiful, responsive web applications." />
+  <meta name="keywords" content="web developer, Vue.js, Supabase, UI design, cyberpunk" />
+  <meta name="theme-color" content="#050510" />
+  <meta property="og:title" content="Von Cristan C. Francisco - Web Developer" />
+  <meta property="og:description" content="Explore my portfolio of web development projects built with Vue.js and Supabase." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://yoursite.com/og-image.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Von Cristan - Web Developer" />
+  <meta name="twitter:description" content="Vue.js • Supabase • UI Systems" />
+  <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90' fill='%2300f0ff'>VF</text></svg>">
   <title>Von Cristan C. Francisco - Cyberpunk Dev</title>
   <link rel="stylesheet" href="style.css">
 </head>
@@ -13,48 +24,52 @@
 
   <div class="city-overlay" aria-hidden="true"></div>
 
-  <nav>
-    <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+  <nav role="navigation" aria-label="Main navigation">
+    <div class="menu-toggle" onclick="toggleMenu()" aria-label="Toggle navigation menu" role="button" tabindex="0">☰</div>
     <div><strong>VON CRISTAN C. FRANCISCO</strong></div>
     <div class="nav-links">
-      <a href="index.html">Home</a>
+      <a href="index.html" aria-current="page">Home</a>
       <a href="about.html">About</a>
+      <a href="projects.html">Projects</a>
       <a href="guestbook.html">Guestbook</a>
       <a href="playground.html">UI Experiments</a>
+      <a href="resources.html">Resources</a>
     </div>
   </nav>
 
-  <div class="hero">
-    <h1 id="typing" class="parallax">VON CRISTAN C. FRANCISCO</h1>
-    <p class="hero-subtitle">Web Developer • Vue.js • Supabase • UI Systems</p>
-    <a href="projects.html" class="btn-primary">View Projects</a>
-  </div>
-
-  <canvas id="particles" aria-hidden="true"></canvas>
-  <div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
-
-  <!-- Typing effect -->
-  <script>
-    const text = 'VON CRISTAN C. FRANCISCO'
-    let i = 0
-    const typingEl = document.getElementById('typing')
-    typingEl.textContent = ''
-    function typeWriter() {
-      if (i < text.length) {
-        typingEl.textContent += text.charAt(i)
-        i++
-        setTimeout(typeWriter, 120)
-      }
-    }
-    window.addEventListener('load', typeWriter)
-  </script>
-
-  <footer class="tech-footer reveal">
-    <div class="footer-content">
-      <p>Built with <strong>Vue 3</strong> • <strong>Supabase</strong> • <strong>CSS3 Animations</strong></p>
-      <p style="margin-top: 10px; font-size: 12px; opacity: 0.6;">Designed & developed by Von Cristan C. Francisco • 2025</p>
+  <main>
+    <div class="hero">
+      <h1 id="typing" class="parallax" aria-label="Von Cristan Francisco - Web Developer">VON CRISTAN C. FRANCISCO</h1>
+      <p class="hero-subtitle">Web Developer • Vue.js • Supabase • UI Systems</p>
+      <a href="projects.html" class="btn-primary" aria-label="View my projects">View Projects</a>
     </div>
-  </footer>
+
+    <canvas id="particles" aria-hidden="true" role="presentation"></canvas>
+    <div class="cursor-glow" id="cursorGlow" aria-hidden="true" role="presentation"></div>
+
+    <!-- Typing effect -->
+    <script>
+      const text = 'VON CRISTAN C. FRANCISCO'
+      let i = 0
+      const typingEl = document.getElementById('typing')
+      typingEl.textContent = ''
+      function typeWriter() {
+        if (i < text.length) {
+          typingEl.textContent += text.charAt(i)
+          i++
+          setTimeout(typeWriter, 120)
+        }
+      }
+      window.addEventListener('load', typeWriter)
+    </script>
+
+    <footer class="tech-footer reveal">
+      <div class="footer-content">
+        <p>Built with <strong>Vue 3</strong> • <strong>Supabase</strong> • <strong>CSS3 Animations</strong></p>
+        <p style="margin-top: 10px; font-size: 12px; opacity: 0.6;">Designed & developed by Von Cristan C. Francisco • 2025</p>
+      </div>
+    </footer>
+  </main>
 
   <script src="main.js" defer></script>
 </body>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="Page not found - Error 404" />
+  <meta name="robots" content="noindex" />
+  <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90' fill='%2300f0ff'>VF</text></svg>">
+  <title>404 - Page Not Found</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .error-container {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 20px;
+    }
+    .error-content {
+      max-width: 600px;
+    }
+    .error-code {
+      font-size: 120px;
+      font-weight: bold;
+      background: linear-gradient(90deg, #00f0ff, #ff00ff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin: 0;
+      line-height: 1;
+      text-shadow: 0 0 30px rgba(0, 240, 255, 0.3);
+    }
+    .error-title {
+      font-size: 32px;
+      color: #00f0ff;
+      margin: 20px 0;
+    }
+    .error-desc {
+      font-size: 16px;
+      opacity: 0.7;
+      margin-bottom: 30px;
+      line-height: 1.6;
+    }
+    .error-actions {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .error-link {
+      display: inline-block;
+      padding: 12px 24px;
+      border: 1px solid #00f0ff;
+      color: #00f0ff;
+      text-decoration: none;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      font-weight: bold;
+    }
+    .error-link:hover {
+      background: rgba(0, 240, 255, 0.1);
+      box-shadow: 0 0 12px rgba(0, 240, 255, 0.4);
+    }
+    .error-link.primary {
+      border-color: #ff00ff;
+      color: #ff00ff;
+    }
+    .error-link.primary:hover {
+      background: rgba(255, 0, 255, 0.1);
+      box-shadow: 0 0 12px rgba(255, 0, 255, 0.4);
+    }
+  </style>
+</head>
+<body>
+  <div class="city-overlay" aria-hidden="true"></div>
+  <canvas id="particles" aria-hidden="true" role="presentation"></canvas>
+
+  <nav role="navigation" aria-label="Main navigation">
+    <div class="menu-toggle" onclick="toggleMenu()" aria-label="Toggle navigation menu" role="button" tabindex="0">☰</div>
+    <div><strong>VON CRISTAN C. FRANCISCO</strong></div>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="projects.html">Projects</a>
+      <a href="guestbook.html">Guestbook</a>
+      <a href="playground.html">UI Experiments</a>
+      <a href="resources.html">Resources</a>
+    </div>
+  </nav>
+
+  <main>
+    <div class="error-container">
+      <div class="error-content">
+        <h1 class="error-code">404</h1>
+        <h2 class="error-title">Page Not Found</h2>
+        <p class="error-desc">
+          Looks like you've wandered into uncharted territory. This page doesn't exist or has been moved.
+        </p>
+        <div class="error-actions">
+          <a href="index.html" class="error-link primary">← Back to Home</a>
+          <a href="projects.html" class="error-link">View Projects</a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div class="cursor-glow" id="cursorGlow" aria-hidden="true" role="presentation"></div>
+
+  <script src="main.js" defer></script>
+</body>
+</html>
