@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Playground - Von Francisco</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="pg-container">
+        <h1>🎮 Playground</h1>
+
+        <h2>1️⃣ Neon Button Lab</h2>
+        <div class="button-lab">
+            <button class="btn btn-pulse">Pulse Glow</button>
+            <button class="btn btn-sweep">Border Sweep</button>
+            <button class="btn btn-liquid">Liquid Effect</button>
+            <button class="btn btn-glitch">Glitch</button>
+        </div>
+
+        <h2>2️⃣ Interactive Background</h2>
+        <div class="bg-lab" id="bgLab">
+            <div class="mouse-light" id="mouseLight"></div>
+            <div class="glow-panel"></div>
+            <div class="glow-panel"></div>
+            <div class="glow-panel"></div>
+        </div>
+        <p style="font-size: 12px; opacity: 0.6;">Move your mouse over the area</p>
+
+        <h2>3️⃣ Mini JS Experiments</h2>
+        <div class="experiments">
+            <div class="exp-box ripple" id="rippleBox">
+                <p style="font-size: 12px;">Click for Ripple</p>
+            </div>
+            <div class="exp-box" id="counterBox">
+                <div class="counter">0</div>
+                <p style="font-size: 12px;">Click to Count</p>
+            </div>
+            <div class="exp-box">
+                <div class="clock" id="clock">00:00:00</div>
+            </div>
+        </div>
+
+        <h2>4️⃣ Micro UI Components</h2>
+        <div class="components">
+            <div class="glass-card">
+                <h3 style="color: #00f0ff; margin-bottom: 10px;">Glassmorphism</h3>
+                <p style="opacity: 0.7;">Beautiful frosted glass effect with backdrop blur.</p>
+            </div>
+
+            <div class="glass-card">
+                <button class="btn btn-liquid" onclick="toggleModal()">Open Neon Modal</button>
+            </div>
+
+            <div class="glass-card">
+                <div class="dropdown">
+                    <button class="dropdown-btn" onclick="toggleDropdown()">Options ▼</button>
+                    <div class="dropdown-menu" id="dropdownMenu">
+                        <div class="dropdown-item" onclick="showToast('Option 1 selected')">Option 1</div>
+                        <div class="dropdown-item" onclick="showToast('Option 2 selected')">Option 2</div>
+                        <div class="dropdown-item" onclick="showToast('Option 3 selected')">Option 3</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <h2 style="color: #00f0ff; margin-bottom: 15px;">Neon Modal</h2>
+            <p style="opacity: 0.8; margin-bottom: 20px;">This is a stylish modal component.</p>
+            <button class="btn btn-liquid" onclick="toggleModal()">Close</button>
+        </div>
+    </div>
+
+    <script>
+        // Mouse follow light
+        const bgLab = document.getElementById('bgLab');
+        const mouseLight = document.getElementById('mouseLight');
+        bgLab.addEventListener('mousemove', (e) => {
+            const rect = bgLab.getBoundingClientRect();
+            mouseLight.style.left = (e.clientX - rect.left - 100) + 'px';
+            mouseLight.style.top = (e.clientY - rect.top - 100) + 'px';
+        });
+
+        // Ripple effect
+        document.getElementById('rippleBox').addEventListener('click', (e) => {
+            const rect = e.currentTarget.getBoundingClientRect();
+            const circle = document.createElement('div');
+            circle.classList.add('ripple-circle');
+            circle.style.left = (e.clientX - rect.left) + 'px';
+            circle.style.top = (e.clientY - rect.top) + 'px';
+            circle.style.width = '40px';
+            circle.style.height = '40px';
+            circle.style.animation = 'rippleOut 0.6s ease-out';
+            e.currentTarget.appendChild(circle);
+            setTimeout(() => circle.remove(), 600);
+        });
+        const style = document.createElement('style');
+        style.textContent = '@keyframes rippleOut { to { width: 300px; height: 300px; opacity: 0; } }';
+        document.head.appendChild(style);
+
+        // Counter
+        let count = 0;
+        document.getElementById('counterBox').addEventListener('click', () => {
+            count++;
+            document.querySelector('.counter').textContent = count;
+        });
+
+        // Clock
+        function updateClock() {
+            const now = new Date();
+            const time = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`;
+            document.getElementById('clock').textContent = time;
+        }
+        updateClock();
+        setInterval(updateClock, 1000);
+
+        // Modal
+        function toggleModal() {
+            document.getElementById('modal').classList.toggle('show');
+        }
+
+        // Dropdown
+        function toggleDropdown() {
+            document.getElementById('dropdownMenu').classList.toggle('show');
+        }
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.dropdown')) {
+                document.getElementById('dropdownMenu').classList.remove('show');
+            }
+        });
+
+        // Toast notification
+        function showToast(msg) {
+            const toast = document.createElement('div');
+            toast.classList.add('toast');
+            toast.textContent = msg;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+    </script>
+</body>
+</html>
