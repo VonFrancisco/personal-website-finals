@@ -26,13 +26,16 @@ body {
 .city-overlay {
   position: fixed;
   inset: 0;
-  background: linear-gradient(
-    to top,
-    rgba(0, 255, 255, 0.05),
-    rgba(255, 0, 255, 0.05),
-    rgba(0, 0, 0, 0.9)
-  );
   z-index: -2;
+  background: linear-gradient(120deg, rgba(0,240,255,0.06), rgba(255,0,255,0.06), rgba(0,0,0,0.9));
+  background-size: 400% 400%;
+  animation: slowGradient 20s linear infinite;
+}
+
+@keyframes slowGradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 /* =========================
@@ -129,45 +132,46 @@ nav a:hover {
 }
 
 /* =========================
-   GUESTBOOK
+   GUESTBOOK (target page container inputs)
+   Use `.page` or `#app` so styles apply to guestbook and other pages
 ========================= */
 
-#guestbook input,
-#guestbook textarea {
+.page input,
+.page textarea,
+#app input,
+#app textarea {
   width: 100%;
   padding: 12px;
-  margin-bottom: 15px;
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(0,255,255,0.3);
+  margin-bottom: 12px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
   color: white;
-  border-radius: 6px;
+  border-radius: 8px;
 }
 
-#guestbook textarea {
-  min-height: 100px;
-  resize: none;
-}
+.page textarea,
+#app textarea { min-height: 100px; resize: vertical; }
 
-#guestbook button {
-  padding: 10px 25px;
+button {
+  padding: 10px 20px;
   background: transparent;
   border: 1px solid #00f0ff;
   color: #00f0ff;
   cursor: pointer;
-  transition: 0.3s;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+  border-radius: 8px;
 }
 
-#guestbook button:hover {
-  background: #00f0ff;
-  color: #050510;
-  box-shadow: 0 0 15px #00f0ff;
-}
+button:hover { transform: scale(1.03); box-shadow: 0 0 18px #00f0ff; }
 
 .comment {
-  margin-top: 20px;
-  padding: 15px;
-  border-left: 2px solid #ff00ff;
-  background: rgba(255,255,255,0.03);
+  margin-top: 16px;
+  padding: 14px;
+  border-radius: 10px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border: 1px solid rgba(255,255,255,0.04);
+  backdrop-filter: blur(6px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.6), 0 0 30px rgba(0,240,255,0.02);
 }
 
 /* =========================
@@ -257,6 +261,27 @@ nav a:hover {
   align-items: center;
 }
 
+nav > div strong {
+  color: #00f0ff;
+  text-shadow: 0 0 8px rgba(0,240,255,0.9), 0 0 22px rgba(255,0,255,0.06);
+}
+
+/* Neon underline animation */
+nav a { position: relative; overflow: visible; }
+nav a::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; bottom: -6px;
+  height: 2px;
+  background: linear-gradient(90deg,#00f0ff,#ff00ff);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 220ms ease;
+  border-radius: 2px;
+  opacity: 0.9;
+}
+nav a:hover::after { transform: scaleX(1); }
+
 @media (max-width: 768px) {
   .menu-toggle { display: block; }
   .nav-links {
@@ -265,14 +290,21 @@ nav a:hover {
     position: absolute;
     right: 5%;
     top: 62px;
-    background: rgba(0,0,0,0.6);
-    padding: 12px;
+    background: rgba(0,0,0,0.66);
+    padding: 8px 12px;
     border-radius: 8px;
     gap: 10px;
     backdrop-filter: blur(6px);
   }
   .nav-links.show { display: flex; }
 }
+
+/* slide-down animation for mobile menu */
+@keyframes slideDown {
+  from { transform: translateY(-8px); opacity: 0 }
+  to { transform: translateY(0); opacity: 1 }
+}
+.nav-links.show { animation: slideDown 220ms ease both }
 
 /* Page transition utility */
 .fade-out {
@@ -293,3 +325,29 @@ nav a:hover {
 
 /* Ensure particles canvas sits behind everything */
 #particles { z-index: -3; }
+
+/* Cursor glow */
+.cursor-glow {
+  position: fixed;
+  pointer-events: none;
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(0.8);
+  background: radial-gradient(circle at 30% 30%, rgba(0,240,255,0.18), rgba(255,0,255,0.06) 40%, rgba(0,0,0,0) 60%);
+  filter: blur(12px) saturate(1.1);
+  opacity: 0;
+  transition: opacity 180ms linear, transform 120ms linear;
+  z-index: 1500;
+}
+
+/* Section divider glow */
+.divider {
+  height: 2px;
+  margin: 28px 0;
+  background: linear-gradient(90deg, rgba(0,240,255,0.06), rgba(255,0,255,0.06));
+  box-shadow: 0 0 18px rgba(255,0,255,0.02);
+}
+
+/* Hero parallax subtle transform target */
+.hero .parallax { transition: transform 0.12s linear; will-change: transform }

@@ -22,15 +22,16 @@
   </nav>
 
   <canvas id="particles" aria-hidden="true"></canvas>
+  <div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
 
   <div class="page">
-    <h1 class="fade-in">About Me</h1>
-    <p class="fade-in">
+    <h1 class="reveal parallax">About Me</h1>
+    <p class="reveal">
       I am a web developer building modern responsive applications
       using Vue.js and Supabase.
     </p>
 
-    <section class="fade-in">
+    <section class="reveal">
       <h2>About Me</h2>
       <p>
         I build modern responsive websites using Vue.js, Supabase, and clean UI principles.
@@ -41,14 +42,13 @@
   <div class="city-overlay" aria-hidden="true"></div>
 
   <script>
-  // Simple reveal observer
+  // Simple reveal observer (adds `active` to .reveal elements)
   const observer = new IntersectionObserver(entries => {
     entries.forEach(entry => {
-      if (entry.isIntersecting) entry.target.classList.add('visible')
+      if (entry.isIntersecting) entry.target.classList.add('active')
     })
-  }, { threshold: 0.1 })
-
-  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el))
+  }, { threshold: 0.12 })
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el))
 
   // Smooth page transitions for internal links
   document.querySelectorAll('a[href$=".html"]').forEach(link => {
@@ -73,6 +73,56 @@
     const links = document.querySelector('.nav-links')
     links.classList.toggle('show')
   }
+
+  // Cursor glow
+  const cursor = document.getElementById('cursorGlow')
+  document.addEventListener('mousemove', (e) => {
+    if (!cursor) return
+    cursor.style.left = e.clientX + 'px'
+    cursor.style.top = e.clientY + 'px'
+    cursor.style.opacity = 1
+  })
+  document.addEventListener('mouseleave', () => { if (cursor) cursor.style.opacity = 0 })
+
+  // Particles: floating in random directions with velocity
+  ;(function initParticles(){
+    const canvas = document.getElementById('particles')
+    if (!canvas) return
+    const ctx = canvas.getContext('2d')
+    let w = canvas.width = window.innerWidth
+    let h = canvas.height = window.innerHeight
+    const particles = []
+    for (let i=0;i<120;i++) particles.push({ x: Math.random()*w, y: Math.random()*h, r: Math.random()*1.8+0.2, vx:(Math.random()-0.5)*0.4, vy:(Math.random()-0.5)*0.4 })
+    function draw(){
+      ctx.clearRect(0,0,w,h)
+      particles.forEach(p=>{
+        ctx.fillStyle = 'rgba(0,240,255,0.7)'
+        ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fill()
+        p.x += p.vx; p.y += p.vy
+        if (p.x < 0) p.x = w
+        if (p.x > w) p.x = 0
+        if (p.y < 0) p.y = h
+        if (p.y > h) p.y = 0
+      })
+      requestAnimationFrame(draw)
+    }
+    let resizeTimer
+    window.addEventListener('resize', ()=>{
+      clearTimeout(resizeTimer)
+      resizeTimer = setTimeout(()=>{ w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight }, 120)
+    })
+    draw()
+  })()
+
+  // Hero parallax small movement
+  const parallaxEl = document.querySelector('.hero .parallax')
+  document.addEventListener('mousemove', (e)=>{
+    if (!parallaxEl) return
+    const cx = window.innerWidth/2, cy = window.innerHeight/2
+    const dx = (e.clientX - cx)/cx
+    const dy = (e.clientY - cy)/cy
+    parallaxEl.style.transform = `translate(${dx*6}px, ${dy*4}px)`
+  })
   </script>
 </body>
 </html>
