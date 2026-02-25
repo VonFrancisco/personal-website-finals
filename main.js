@@ -192,7 +192,7 @@ function activateGlitchMode() {
   document.body.classList.toggle('glitch-mode')
   const h1 = document.querySelector('h1')
   if (h1) {
-    h1.textContent = h1.textContent === 'VON CRISTAN' ? '⚡G4LT_UR3⚡' : 'VON CRISTAN'
+    h1.textContent = h1.textContent === 'VON CRISTAN C. FRANCISCO' ? '⚡G4LT_UR3⚡' : 'VON CRISTAN C. FRANCISCO'
   }
   
   // Show glitch notification
