@@ -1,285 +1,109 @@
 <!DOCTYPE html>
-<html>
-<link rel="stylesheet" href="style.css">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Guestbook - Von Cristan</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Guestbook - Von Francisco</title>
+  <link rel="stylesheet" href="style.css">
 
   <!-- Vue -->
   <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 
   <!-- Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-  <style>
-    html { scroll-behavior: smooth; }
-
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: #050510;
-      color: white;
-      overflow-x: hidden;
-    }
-
-    /* Background */
-    .city-overlay {
-      position: fixed;
-      inset: 0;
-      background: url('https://i.imgur.com/fwgGV3G.jpg') no-repeat center center/cover;
-      opacity: 0.35;
-      z-index: -2;
-    }
-
-    body::after {
-      content: "";
-      position: fixed;
-      inset: 0;
-      background: linear-gradient(to bottom, rgba(0,0,0,0.75), rgba(0,0,0,0.9));
-      z-index: -1;
-    }
-
-    /* Navbar */
-    nav {
-      position: fixed;
-      top: 0;
-      width: 100%;
-      padding: 15px 30px;
-      display: flex;
-      justify-content: space-between;
-      background: rgba(0,0,0,0.6);
-      backdrop-filter: blur(10px);
-      z-index: 1000;
-    }
-
-    nav a {
-      color: white;
-      text-decoration: none;
-      margin-left: 20px;
-    }
-
-    nav a:hover {
-      color: #00f0ff;
-    }
-
-    /* Layout */
-    .container {
-      max-width: 700px;
-      margin: auto;
-      padding: 120px 20px 40px;
-    }
-
-    h1 {
-      text-align: center;
-      background: linear-gradient(90deg,#00f0ff,#ff00ff);
-      -webkit-background-clip: text;
-      color: transparent;
-    }
-
-    /* Inputs */
-    input, textarea {
-      width: 100%;
-      padding: 12px;
-      margin-bottom: 12px;
-      background: rgba(255,255,255,0.07);
-      border: 1px solid rgba(255,255,255,0.15);
-      color: white;
-      border-radius: 8px;
-    }
-
-    /* Neon Button */
-    button {
-      width: 100%;
-      padding: 12px;
-      background: transparent;
-      border: 2px solid #00f0ff;
-      color: #00f0ff;
-      font-weight: bold;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: 0.3s;
-      box-shadow: 0 0 10px #00f0ff;
-    }
-
-    button:hover {
-      background: #00f0ff;
-      color: black;
-      box-shadow: 0 0 20px #ff00ff;
-    }
-
-    /* Comments */
-    .comment {
-      margin-top: 15px;
-      padding: 12px;
-      background: rgba(255,255,255,0.06);
-      border-radius: 8px;
-      transition: 0.3s;
-    }
-
-    .comment:hover {
-      background: rgba(255,255,255,0.1);
-    }
-
-    /* Particles */
-    #particles {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -3;
-    }
-
-    @media (max-width: 600px) {
-      .container { padding-top: 140px; }
-    }
-  </style>
 </head>
 
 <body>
-<div id="loader">
-  <div class="loader-text">LOADING...</div>
-</div> 
+  <div id="loader">
+    <div class="loader-text">LOADING...</div>
+  </div>
 
-<div class="city-overlay"></div>
-<canvas id="particles"></canvas>
+  <div class="city-overlay" aria-hidden="true"></div>
+  <canvas id="particles" aria-hidden="true"></canvas>
 
-<nav>
+  <nav>
     <div class="menu-toggle" onclick="toggleMenu()">☰</div>
-  <div><strong>VON CRISTAN</strong></div>
-  <div>
-    <a href="index.html">Home</a>
-    <a href="about.html">About</a>
-    <a href="guestbook.html">Guestbook</a>
+    <div><strong>VON FRANCISCO</strong></div>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="guestbook.html">Guestbook</a>
+    </div>
+  </nav>
+
+  <div id="app" class="page">
+    <div class="container">
+      <h1>Guestbook</h1>
+
+      <input v-model="name" placeholder="Your name">
+      <textarea v-model="message" placeholder="Your message"></textarea>
+      <button @click="addComment">Post Comment</button>
+
+      <div v-for="comment in comments" :key="comment.id" class="comment">
+        <strong>{{ comment.name }}</strong>
+        <p>{{ comment.message }}</p>
+      </div>
+    </div>
   </div>
-</nav>
 
-<div id="app" class="container">
-  <h1>Guestbook</h1>
+  <script>
+  const { createApp, ref, onMounted } = Vue
+  const { createClient } = supabase
 
-  <input v-model="name" placeholder="Your name">
-  <textarea v-model="message" placeholder="Your message"></textarea>
-  <button @click="addComment">Post Comment</button>
+  const db = createClient(
+    'https://cdrhbihdnvqkcixqqvad.supabase.co',
+    'sb_publishable_yNAeLHsCJIw3rUPUMy8A-w_kJ4xx3Lk'
+  )
 
-  <div v-for="comment in comments" :key="comment.id" class="comment">
-    <strong>{{ comment.name }}</strong>
-    <p>{{ comment.message }}</p>
-  </div>
-</div>
+  createApp({
+    setup() {
+      const name = ref('')
+      const message = ref('')
+      const comments = ref([])
 
-<script>
-const { createApp, ref, onMounted } = Vue
-const { createClient } = supabase
+      async function fetchComments() {
+        const { data } = await db.from('guestbook').select('*').order('created_at', { ascending: false })
+        comments.value = data || []
+      }
 
-const db = createClient(
-  "https://cdrhbihdnvqkcixqqvad.supabase.co",
-  "sb_publishable_yNAeLHsCJIw3rUPUMy8A-w_kJ4xx3Lk"
-)
+      async function addComment() {
+        if (!name.value || !message.value) return
+        await db.from('guestbook').insert([{ name: name.value, message: message.value }])
+        name.value = ''
+        message.value = ''
+        fetchComments()
+      }
 
-createApp({
-  setup() {
-    const name = ref("")
-    const message = ref("")
-    const comments = ref([])
-
-    async function fetchComments() {
-      const { data } = await db
-        .from("guestbook")
-        .select("*")
-        .order("created_at", { ascending: false })
-
-      comments.value = data || []
+      onMounted(fetchComments)
+      return { name, message, comments, addComment }
     }
+  }).mount('#app')
 
-    async function addComment() {
-      if (!name.value || !message.value) return
-
-      await db.from("guestbook").insert([
-        { name: name.value, message: message.value }
-      ])
-
-      name.value = ""
-      message.value = ""
-      fetchComments()
+  // Particles
+  const canvas = document.getElementById('particles')
+  const ctx = canvas && canvas.getContext ? canvas.getContext('2d') : null
+  if (ctx) {
+    canvas.width = window.innerWidth
+    canvas.height = window.innerHeight
+    let particles = []
+    for (let i = 0; i < 120; i++) particles.push({ x: Math.random()*canvas.width, y: Math.random()*canvas.height, size: Math.random()*2, speed: Math.random()*0.6 })
+    function animate() {
+      ctx.clearRect(0,0,canvas.width,canvas.height)
+      particles.forEach(p => {
+        ctx.fillStyle = 'rgba(0,240,255,0.8)'
+        ctx.beginPath(); ctx.arc(p.x,p.y,p.size,0,Math.PI*2); ctx.fill()
+        p.y -= p.speed; if (p.y < 0) p.y = canvas.height
+      })
+      requestAnimationFrame(animate)
     }
-
-    onMounted(fetchComments)
-
-    return { name, message, comments, addComment }
+    animate()
   }
-}).mount("#app")
 
-/* Particle Effect */
-const canvas = document.getElementById("particles")
-const ctx = canvas.getContext("2d")
-
-canvas.width = window.innerWidth
-canvas.height = window.innerHeight
-
-let particles = []
-
-for (let i = 0; i < 120; i++) {
-  particles.push({
-    x: Math.random() * canvas.width,
-    y: Math.random() * canvas.height,
-    size: Math.random() * 2,
-    speed: Math.random() * 0.6
-  })
-}
-
-function animate() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height)
-
-  particles.forEach(p => {
-    ctx.fillStyle = "rgba(0,240,255,0.8)"
-    ctx.beginPath()
-    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2)
-    ctx.fill()
-
-    p.y -= p.speed
-    if (p.y < 0) p.y = canvas.height
-  })
-
-  requestAnimationFrame(animate)
-}
-
-animate()
-</script>
-
-<script>
-document.querySelectorAll("a").forEach(link => {
-  link.addEventListener("click", function(e) {
-    if (this.getAttribute("href").includes(".html")) {
-      e.preventDefault()
-      document.body.classList.add("fade-out")
-      setTimeout(() => {
-        window.location.href = this.href
-      }, 300)
-    }
-  })
-})
-</script>
-
-<script>
-window.addEventListener("load", () => {
-  const loader = document.getElementById("loader")
-  loader.style.opacity = "0"
-  setTimeout(() => loader.remove(), 500)
-})
-</script>
-
-<canvas id="particles"></canvas>
-
-<script>
-function toggleMenu() {
-  const links = document.querySelector(".nav-links")
-  if (links.style.display === "flex") {
-    links.style.display = "none"
-  } else {
-    links.style.display = "flex"
-  }
-}
-</script>
+  // Behavior: transitions, loader, menu
+  document.querySelectorAll('a[href$=".html"]').forEach(link => link.addEventListener('click', function(e){ e.preventDefault(); document.body.classList.add('fade-out'); setTimeout(()=> window.location.href = this.href,300)}))
+  window.addEventListener('load', ()=>{ const loader = document.getElementById('loader'); if(loader){ loader.style.opacity='0'; setTimeout(()=>loader.remove(),500)} })
+  function toggleMenu(){ document.querySelector('.nav-links').classList.toggle('show') }
+  </script>
 
 </body>
 </html>
