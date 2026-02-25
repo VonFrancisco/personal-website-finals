@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Guestbook - Von Cristan</title>
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Vue -->
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+
+<body>
+  <div id="loader">
+    <div class="loader-text">LOADING...</div>
+  </div>
+
+  <div class="city-overlay" aria-hidden="true"></div>
+  <canvas id="particles" aria-hidden="true"></canvas>
+
+  <nav>
+    <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+    <div><strong>VON CRISTAN</strong></div>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="projects.html">Projects</a>
+      <a href="guestbook.html">Guestbook</a>
+      <a href="playground.html">Playground</a>
+    </div>
+  </nav>
+
+  <div id="app" class="page">
+    <div class="container">
+      <h1>Guestbook</h1>
+      <p style="opacity: 0.75; margin-bottom: 20px;">Sign the guestbook—I'd love to hear from you!</p>
+
+      <input v-model="name" placeholder="Your name" maxlength="50">
+      <textarea v-model="message" placeholder="Your message" maxlength="300" @input="updateCharCount"></textarea>
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+        <span style="font-size: 12px; opacity: 0.6;">{{ messageLength }} / 300 characters</span>
+        <button @click="addComment" :disabled="!name || !message" style="width: auto; padding: 8px 16px;">Post Comment</button>
+      </div>
+
+      <div v-if="comments.length === 0" style="text-align: center; padding: 40px 0; opacity: 0.6;">
+        <p>No messages yet. Be the first to sign! ✨</p>
+      </div>
+
+      <div v-for="comment in comments" :key="comment.id" class="comment reveal">
+        <strong style="color: #00f0ff;">{{ comment.name }}</strong>
+        <p style="margin-top: 8px; opacity: 0.85;">{{ comment.message }}</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  const { createApp, ref, onMounted } = Vue
+  const { createClient } = supabase
+
+  const db = createClient(
+    'https://cdrhbihdnvqkcixqqvad.supabase.co',
+    'sb_publishable_yNAeLHsCJIw3rUPUMy8A-w_kJ4xx3Lk'
+  )
+
+  createApp({
+    setup() {
+      const name = ref('')
+      const message = ref('')
+      const comments = ref([])
+      const messageLength = ref(0)
+      const messageLength = ref(0)
+
+      async function fetchComments() {
+        const { data } = await db.from('guestbook').select('*').order('created_at', { ascending: false })
+        comments.value = data || []
+      }
+
+      async function addComment() {
+        if (!name.value || !message.value) return
+        const btn = document.querySelector('button[style*="width: auto"]')
+        if (btn) btn.disabled = true
+        try {
+          await db.from('guestbook').insert([{ name: name.value, message: message.value }])
+          name.value = ''
+          message.value = ''
+          messageLength.value = 0
+          fetchComments()
+        } finally {
+          if (btn) btn.disabled = false
+        }
+      }
+
+      const updateCharCount = () => { messageLength.value = message.value.length }
+
+      onMounted(fetchComments)
+      return { name, message, comments, addComment, messageLength, updateCharCount }
+    }
+  }).mount('#app')
+  </script>
+
+  <script src="main.js" defer></script>
+
+</body>
+</html>
